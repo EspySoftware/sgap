@@ -1,6 +1,8 @@
 <h1> Sign up</h1>
 
-<form action="/signup" method = "POST">  
+{{error}}
+
+<form method = "POST">  
     {% csrf_token %}
     {{form.as_p}}
     <button>    
