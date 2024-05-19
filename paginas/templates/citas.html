@@ -1,12 +1,35 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h1> Citas </h1>
-<ul>
-    {% for cita in citas %}
-    <a href="{% url 'detalle_cita' cita.id %}">
-        <li> {{ cita.titulo }} </li>
-    </a>
-    {% endfor %}
-</ul>
+{% extends 'base.html' %} {% block content %}
+<h1>Citas</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Asunto</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Solicitante</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cita in citas %}
+        <tr>
+            <td>{{ cita.titulo }}</td>
+            <td>{{ cita.motivo }}</td>
+            <td>{{ cita.fecha }}</td>
+            <td>{{ cita.user }}</td>
+            <td>
+                <a href="/citas/{{ cita.id }}/confirmar" class="btn btn-success"
+                    >Confirmar</a
+                >
+                <a href="/citas/{{ cita.id }}/editar" class="btn btn-primary"
+                    >Editar</a
+                >
+                <a href="/citas/{{ cita.id }}/delete" class="btn btn-danger"
+                    >Eliminar</a
+                >
+            </td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
 {% endblock %}
