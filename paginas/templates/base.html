@@ -1,41 +1,3 @@
-<<<<<<< HEAD
-<!DOCTYPE html
-<html lang = es>  
-<head>
-    <meta charset = "UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width-device-width, initial-scale=1.0">
-    <title>SGAP</title>
-</head>
-<body> 
-    <nav>
-        <ul>
-            <li>
-                <a href = "/">Inicio</a>
-            </li>           
-            {% if user.is_authenticated %}
-            <li>
-                <a href = "/citas">Citas</a>
-            </li>
-            <li>
-                <a href = "/citas/crear">Agendar citas</a>
-            </li>
-            <li>
-                <a href = "/logout">Cerrar sesión</a>
-            </li>
-            {% else %}
-            <li>
-                <a href = "/signin">Iniciar Sesion</a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% block content %}
-
-    {% endblock %}
-</body>
-</html>
-=======
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -138,4 +100,3 @@
         </div>
     </body>
 </html>
->>>>>>> af12c0ac79227ffd70c1ead26baa7df2e34c0dc6
