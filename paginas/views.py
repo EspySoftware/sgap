@@ -92,6 +92,16 @@ def citas_confirmadas(request):
             estado='C', user=request.user).order_by('fecha')
     return render(request, 'citas.html', {
         'citas': citas})
+    
+def citas_pendientes(request):
+    if request.user.username == 'espy':
+        citas = Cita.objects.filter(estado='P').order_by('solicitada')
+    else:
+        citas = Cita.objects.filter(
+            estado='P', user=request.user).order_by('solicitada')
+    return render(request, 'citas.html', {
+        'citas': citas})
+
 
 
 def signout(request):

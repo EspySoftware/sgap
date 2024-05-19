@@ -6,6 +6,7 @@
             <th scope="col">Asunto</th>
             <th scope="col">Descripción</th>
             <th scope="col">Fecha</th>
+            <th scope="col">Fecha solicitud</th>
             <th scope="col">Solicitante</th>
             <th scope="col">Estado</th>
             <th scope="col">Acciones</th>
@@ -17,12 +18,15 @@
             <td>{{ cita.titulo }}</td>
             <td>{{ cita.motivo }}</td>
             <td>{{ cita.fecha }}</td>
+            <td>{{ cita.solicitada }}</td>
             <td>{{ cita.user }}</td>
             <td>{{ cita.estado }}</td>
             <td>
-                <a href="/citas/{{ cita.id }}/confirmar" class="btn btn-success"
-                    >Confirmar</a
-                >
+                {% if user.username == 'espy' %}
+                    <a href="/citas/{{ cita.id }}/confirmar" class="btn btn-success"
+                        >Confirmar
+                    </a>
+                {% endif %}
                 <a href="/citas/{{ cita.id }}/editar" class="btn btn-primary"
                     >Editar</a
                 >
