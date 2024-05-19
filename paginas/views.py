@@ -90,7 +90,7 @@ def citas_confirmadas(request):
     else:
         citas = Cita.objects.filter(
             estado='C', user=request.user).order_by('fecha')
-    return render(request, 'citas.html', {
+    return render(request, 'citas_confirmadas.html', {
         'citas': citas})
     
 def citas_pendientes(request):
@@ -99,7 +99,7 @@ def citas_pendientes(request):
     else:
         citas = Cita.objects.filter(
             estado='P', user=request.user).order_by('solicitada')
-    return render(request, 'citas.html', {
+    return render(request, 'citas_pendientes.html', {
         'citas': citas})
 
 
