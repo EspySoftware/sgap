@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> Citas </h1>
+<ul>
+    {% for cita in citas %}
+    <li> {{ cita.titulo }} </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from django.http import HttpResponse
 from django.db import IntegrityError
-
+from .forms import FormularioCita
+from .models import Cita
 # Create your views here.
 
 
@@ -36,9 +36,18 @@ def signup(request):
                       )
 
 
-def tasks(request):
-    return render(request, 'tasks.html')
+def citas(request):
+    if request.user.username == 'espy':
+        citas = Cita.objects.all() # VISTA DEL ORIENTADOR
+    else: 
+        citas = Cita.objects.filter(user = request.user) # VISTA DEL USUARIO
+    return render(request, 'citas.html', {
+        'citas': citas
+    })
 
+def detalle_cita(request, id_cita):
+    cita = Cita.objects.get(pk=id_cita)
+    return render(request, 'detalle_cita.html', { 'cita': cita})
 
 def signout(request):
     logout(request)
@@ -60,4 +69,22 @@ def signin(request):
             })
         else:
             login(request, user)
-            return redirect('tasks')
+            return redirect('citas')
+
+def crear_cita(request):
+    if request.method == "GET":
+        return render(request, 'crear_cita.html', {
+            'form': FormularioCita
+        })
+    else:
+        try:
+            form = FormularioCita(request.POST)
+            nueva_cita = form.save(commit=False)
+            nueva_cita.user = request.user
+            nueva_cita.save()
+            return redirect('citas')
+        except ValueError:
+            return render(request, 'crear_cita.html', {
+                'form': FormularioCita,
+                'error': 'Por favor, verifica los datos ingresados'
+            })

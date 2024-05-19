@@ -1,0 +1,12 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<h1>Agendar</h1>
+    {{error}}
+    <form action = "/citas/crear" method = "POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type = "submit">Agendar</button>
+    </form>
+
+{% endblock %}
