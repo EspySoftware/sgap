@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import FormularioCita
 from .models import Cita
+
 # Create your views here.
 
 
@@ -46,7 +47,7 @@ def citas(request):
     })
 
 def detalle_cita(request, id_cita):
-    cita = Cita.objects.get(pk=id_cita)
+    cita = get_object_or_404(Cita, pk=id_cita)
     return render(request, 'detalle_cita.html', { 'cita': cita})
 
 def signout(request):
