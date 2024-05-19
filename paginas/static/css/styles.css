@@ -1,0 +1,33 @@
+:root {
+    --bs-primary: #017041;
+    --bs-secondary: #f1a730;
+}
+
+body .btn-primary {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+body .btn-primary:hover {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+/* Active */
+
+body .btn-primary:active {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.nav-link.active {
+    background-color: var(--bs-secondary) !important;
+}
+
+.nav-link {
+    color: white !important;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
