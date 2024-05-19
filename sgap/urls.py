@@ -26,5 +26,6 @@ urlpatterns = [
     path('citas/crear', views.crear_cita, name = 'crear_cita'),
     path('logout/', views.signout, name = 'logout'),
     path('signin/', views.signin, name = 'signin'),
-    path('citas/<int:id_cita>', views.detalle_cita, name = 'detalle_cita')
+    path('citas/<int:id_cita>', views.detalle_cita, name = 'detalle_cita'),
+    path('citas_confirmadas/', views.citas_confirmadas, name = 'citas_confirmadas')
     ]

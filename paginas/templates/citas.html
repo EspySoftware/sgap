@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h1> Citas </h1>
+{% extends 'base.html' %} {% block content %}
+<h1>Citas</h1>
 <ul>
-    {% for cita in citas %}
-    <a href="{% url 'detalle_cita' cita.id %}">
-        <li> {{ cita.titulo }} </li>
-    </a>
-    {% endfor %}
+  {% for cita in citas %}
+  <a href="{% url 'detalle_cita' cita.id %}">
+    <li>{{ cita.titulo }}</li>
+    <p>Fecha: {{cita.fecha|date:'j M Y:i'}}</p>
+    <p>Estado: {{cita.estado}}</p>
+  </a>
+  <br>
+  {% endfor %}
 </ul>
 {% endblock %}

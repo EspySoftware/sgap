@@ -10,21 +10,19 @@
     <nav>
         <ul>
             <li>
-                <a href = "/">Home</a>
-            </li>
-
+                <a href = "/">Inicio</a>
+            </li>           
+            {% if user.is_authenticated %}
             <li>
                 <a href = "/citas">Citas</a>
             </li>
-           
-            {% if user.is_authenticated %}
+            <li>
+                <a href = "/citas/crear">Agendar citas</a>
+            </li>
             <li>
                 <a href = "/logout">Cerrar sesión</a>
             </li>
             {% else %}
-            <li>
-                <a href = "/signup">Registrarse</a>
-            </li>
             <li>
                 <a href = "/signin">Iniciar Sesion</a>
             </li>

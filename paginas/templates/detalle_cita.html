@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>{{cita.titulo}}</h1>
+{{error}}
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button>Guardar</button>
+
+</form>
+
 {% endblock %}
