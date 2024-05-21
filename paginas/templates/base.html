@@ -57,6 +57,18 @@
                     </li>
                     <li>
                         <a
+                            # href="/lista_horarios"
+                            class="nav-link {% if request.path == '/horarios/' %}active{% endif %} py-3 border-bottom rounded-0"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right"
+                            aria-label="Horarios"
+                            data-bs-original-title="Horarios"
+                        >
+                            <i class="fas fa-clock"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a
                             href="/logout"
                             class="nav-link py-3 border-bottom rounded-0"
                             data-bs-toggle="tooltip"
@@ -98,5 +110,20 @@
 
             <div class="container mt-3">{% block content %} {% endblock %}</div>
         </div>
+        <script
+            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+            integrity="sha384-pDnbekzU3gMnK+TT2MXPOEQsR4vAymLtNFK8KjESgKqeDQQu4h7HJ2WwXRsP1gIt"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"
+            integrity="sha384-pDnbekzU3gMnK+TT2MXPOEQsR4vAymLtNFK8KjESgKqeDQQu4h7HJ2WwXRsP1gIt"
+            crossorigin="anonymous"
+        ></script>
     </body>
 </html>

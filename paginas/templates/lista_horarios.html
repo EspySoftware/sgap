@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Horarios</title>
+</head>
+<body>
+    <h1>Lista de Horarios</h1>
+    <a href="{% url 'crear_horario' %}">Crear Horario</a>
+    <ul>
+        {% for horario in horarios %}
+            <li>
+                {{ horario }} 
+                <a href="{% url 'editar_horario' horario.pk %}">Editar</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

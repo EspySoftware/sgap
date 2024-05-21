@@ -28,5 +28,8 @@ urlpatterns = [
     path('signin/', views.signin, name = 'signin'),
     path('citas/<int:id_cita>', views.detalle_cita, name = 'detalle_cita'),
     path('citas_confirmadas/', views.citas_confirmadas, name = 'citas_confirmadas'),
-    path('citas_pendientes/', views.citas_pendientes, name = 'citas_pendientes')
+    path('citas_pendientes/', views.citas_pendientes, name = 'citas_pendientes'),
+    path('lista_horarios/', views.lista_horarios, name='lista_horarios'),
+    path('crear_horarios/', views.crear_horario, name='crear_horario'),
+    path('horarios/editar/<int:pk>/', views.editar_horario, name='editar_horario'),
     ]

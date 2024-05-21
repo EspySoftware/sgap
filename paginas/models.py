@@ -24,3 +24,12 @@ class Cita(models.Model):
     
     def __str__(self):
         return ' ' + self.titulo + ' - ' + self.user.username
+    
+
+class Horario(models.Model):
+    fecha = models.DateField()
+    hora_inicio = models.TimeField()
+    hora_fin = models.TimeField()
+
+    def __str__(self):
+        return f"{self.fecha} - {self.hora_inicio} a {self.hora_fin}"

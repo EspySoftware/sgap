@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import FormularioCita
-from .models import Cita
+from .forms import FormularioCita, HorarioForm
+from .models import Cita, Horario
 
 # Create your views here.
 
@@ -144,3 +144,29 @@ def crear_cita(request):
                 'form': FormularioCita,
                 'error': 'Por favor, verifica los datos ingresados'
             })
+
+
+def lista_horarios(request):
+    horarios = Horario.objects.all()
+    return render(request, 'horarios/lista_horarios.html', {'horarios': horarios})
+
+def crear_horario(request):
+    if request.method == 'POST':
+        form = HorarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_horarios')
+    else:
+        form = HorarioForm()
+    return render(request, 'horarios/crear_horario.html', {'form': form})
+
+def editar_horario(request, pk):
+    horario = get_object_or_404(Horario, pk=pk)
+    if request.method == 'POST':
+        form = HorarioForm(request.POST, instance=horario)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_horarios')
+    else:
+        form = HorarioForm(instance=horario)
+    return render(request, 'horarios/editar_horario.html', {'form': form})
