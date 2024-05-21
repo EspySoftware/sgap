@@ -30,18 +30,6 @@
                 <ul
                     class="nav nav-pills nav-flush flex-column mb-auto text-center"
                 >
-                    <li class="nav-item">
-                        <a
-                            href="/"
-                            class="nav-link {% if request.path == '/' %}active{% endif %} py-3 border-bottom rounded-0"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right"
-                            aria-label="Inicio"
-                            data-bs-original-title="Inicio"
-                        >
-                            <i class="fas fa-home"></i>
-                        </a>
-                    </li>
                     {% if user.is_authenticated %}
                     <li>
                         <a
@@ -69,16 +57,18 @@
                     </li>
                     {% else %}
                     <li>
-                        <a
-                            href="/signin"
-                            class="nav-link {% if request.path == '/signin/' %}active{% endif %} py-3 border-bottom rounded-0"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right"
-                            aria-label="Iniciar Sesion"
-                            data-bs-original-title="Iniciar Sesion"
-                        >
-                            <i class="fas fa-sign-in-alt"></i>
-                        </a>
+                        <li class="nav-item">
+                            <a
+                                href="/"
+                                class="nav-link {% if request.path == '/' %}active{% endif %} py-3 border-bottom rounded-0"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="right"
+                                aria-label="Inicio"
+                                data-bs-original-title="Inicio"
+                            >
+                                <i class="fas fa-home"></i>
+                            </a>
+                        </li>
                     </li>
                     <li>
                         <a

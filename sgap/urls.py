@@ -20,12 +20,11 @@ from paginas import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name = 'home'),
     path('signup/', views.signup, name = 'signup'),
     path('citas/', views.citas, name = 'citas'),
     path('citas/crear', views.crear_cita, name = 'crear_cita'),
     path('logout/', views.signout, name = 'logout'),
-    path('signin/', views.signin, name = 'signin'),
+    path('', views.signin, name = 'signin'),
     path('citas/<int:id_cita>', views.detalle_cita, name = 'detalle_cita'),
     path('citas_confirmadas/', views.citas_confirmadas, name = 'citas_confirmadas'),
     path('citas_pendientes/', views.citas_pendientes, name = 'citas_pendientes')
