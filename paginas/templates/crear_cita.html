@@ -1,12 +1,35 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <h1 class="text-center mt-3">Agendar cita</h1>
+    <div class="col-md-4">
+      <form action="" method="POST" class="mt-4">
+        {% csrf_token %} {% for field in form %}
+        <div class="form-group mb-3">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          <input
+            type="{{ field.field.widget.input_type }}"
+            class="form-control"
+            id="{{ field.id_for_label }}"
+            name="{{ field.html_name }}"
+            {%
+            if
+            field.field.required
+            %}required{%
+            endif
+            %}
+          />
+        </div>
+        {% endfor %}
+        <div class="form-group text-center">
+          <button class="btn btn-primary">Agendar</button>
+        </div>
+      </form>
 
-{% block content %}
-<h1>Agendar</h1>
-    {{error}}
-    <form action = "/citas/crear" method = "POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type = "submit">Agendar</button>
-    </form>
-
+      {% if error %}
+      <div class="alert alert-danger mt-3" role="alert">{{error}}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}

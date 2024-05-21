@@ -33,6 +33,18 @@
                     {% if user.is_authenticated %}
                     <li>
                         <a
+                            href="/citas/crear"
+                            class="nav-link {% if request.path == '/citas/crear/' %}active{% endif %} py-3 border-bottom rounded-0"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right"
+                            aria-label="Agendar Nueva Cita"
+                            data-bs-original-title="Agendar Nueva Cita"
+                        >
+                            <i class="fas fa-calendar-plus"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a
                             href="/citas"
                             class="nav-link {% if request.path == '/citas/' %}active{% endif %} py-3 border-bottom rounded-0"
                             data-bs-toggle="tooltip"
@@ -41,6 +53,18 @@
                             data-bs-original-title="Citas"
                         >
                             <i class="fas fa-calendar-alt"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            
+                            class="nav-link {% if request.path == '/horarios/' %}active{% endif %} py-3 border-bottom rounded-0"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right"
+                            aria-label="Horarios"
+                            data-bs-original-title="Horarios"
+                        >
+                            <i class="fas fa-clock"></i>
                         </a>
                     </li>
                     <li>
@@ -55,6 +79,7 @@
                             <i class="fas fa-sign-out-alt"></i>
                         </a>
                     </li>
+                   
                     {% else %}
                     <li>
                         <li class="nav-item">

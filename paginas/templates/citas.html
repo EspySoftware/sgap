@@ -9,7 +9,9 @@
             <th scope="col">Fecha solicitud</th>
             <th scope="col">Solicitante</th>
             <th scope="col">Estado</th>
+            {% if user.username == 'espy' or user == 'orientador' %}
             <th scope="col">Acciones</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -21,15 +23,14 @@
             <td>{{ cita.solicitada }}</td>
             <td>{{ cita.user }}</td>
             <td>{{ cita.estado }}</td>
-            <td>
-                {% if user.username == 'espy' %}
+            {% if user.username == 'espy' or user == 'orientador' %}
+            <td>    
                     <a href="/citas/{{ cita.id }}" class="btn btn-success"
                         >Editar
                     </a>
-                {% else %}
-                    # Opcion editar de usuario normal
-                {% endif %} 
             </td>
+            {% else %}
+            {% endif %}
             {% endfor %}
         </tr>
     </tbody>

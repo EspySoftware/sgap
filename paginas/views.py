@@ -130,13 +130,14 @@ def signin(request):
 def crear_cita(request):
     if request.method == "GET":
         return render(request, 'crear_cita.html', {
-            'form': FormularioCita
+            'form': FormularioCita  
         })
     else:
         try:
             form = FormularioCita(request.POST)
             nueva_cita = form.save(commit=False)
             nueva_cita.user = request.user
+            nueva_cita.estado = 'P'
             nueva_cita.save()
             return redirect('citas')
         except ValueError:
@@ -144,3 +145,4 @@ def crear_cita(request):
                 'form': FormularioCita,
                 'error': 'Por favor, verifica los datos ingresados'
             })
+

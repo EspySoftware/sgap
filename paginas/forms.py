@@ -10,4 +10,3 @@ class FormularioCita(ModelForm):
             'date': forms.DateInput(attrs={'type': 'date'}),
             'description': forms.Textarea,
         }
-
