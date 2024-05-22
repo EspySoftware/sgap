@@ -1,5 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 <h1 class="text-center mt-3 mb-3">Citas</h1>
+<a href="/citas_confirmadas" class="btn btn-success">Citas confirmadas</a>
+<a href="/citas_pendientes" class="btn btn-success">Citas pendientes</a>
+                        
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -35,8 +38,5 @@
         </tr>
     </tbody>
 </table>
-<a href="/citas_confirmadas" class="btn btn-success">Citas confirmadas</a>
-<a href="/citas_pendientes" class="btn btn-success">Citas pendientes</a>
-                        
                     
 {% endblock %}

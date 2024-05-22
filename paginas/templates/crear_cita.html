@@ -5,6 +5,27 @@
     <div class="col-md-4">
       <form action="" method="POST" class="mt-4">
         {% csrf_token %} {% for field in form %}
+        {% if field.name == 'estado' %}
+          {% if user.is_staff %}
+          <div class="form-group mb-3">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <input
+              type="{{ field.field.widget.input_type }}"
+              class="form-control"
+              id="{{ field.id_for_label }}"
+              name="{{ field.html_name }}"
+            />
+          </div>
+          {% endif %}
+          <div class="form-group mb-3">
+            <input
+              type= hidden
+              id="{{ field.id_for_label }}"
+              name="estado"
+              value = "Pendiente"
+            />
+          </div>
+        {% else %}
         <div class="form-group mb-3">
           <label for="{{ field.id_for_label }}">{{ field.label }}</label>
           <input
@@ -20,6 +41,7 @@
             %}
           />
         </div>
+        {% endif %}
         {% endfor %}
         <div class="form-group text-center">
           <button class="btn btn-primary">Agendar</button>

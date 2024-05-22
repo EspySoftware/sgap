@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Cita(models.Model):
-    PENDIENTE = 'P'
-    CONFIRMADA = 'C'
-    CANCELADA = 'X'
+    PENDIENTE = 'Pendiente'
+    CONFIRMADA = 'Confirmada'
+    CANCELADA = 'Declinada'
     ESTADOS_CITA = [
         (PENDIENTE, 'Pendiente'),
         (CONFIRMADA, 'Confirmada'),
@@ -16,7 +16,7 @@ class Cita(models.Model):
     fecha = models.DateTimeField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     estado = models.CharField(
-        max_length=1,
+        max_length=11,
         choices=ESTADOS_CITA,
         default=PENDIENTE,
     )

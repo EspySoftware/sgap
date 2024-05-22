@@ -81,19 +81,19 @@ def detalle_cita(request, id_cita):
 
 def citas_confirmadas(request):
     if request.user.username == 'espy':
-        citas = Cita.objects.filter(estado='C').order_by('fecha')
+        citas = Cita.objects.filter(estado='Confirmada').order_by('fecha')
     else:
         citas = Cita.objects.filter(
-            estado='C', user=request.user).order_by('fecha')
+            estado='Confirmada', user=request.user).order_by('fecha')
     return render(request, 'citas_confirmadas.html', {
         'citas': citas})
     
 def citas_pendientes(request):
     if request.user.username == 'espy':
-        citas = Cita.objects.filter(estado='P').order_by('solicitada')
+        citas = Cita.objects.filter(estado='Pendiente').order_by('solicitada')
     else:
         citas = Cita.objects.filter(
-            estado='P', user=request.user).order_by('solicitada')
+            estado='Pendiente', user=request.user).order_by('solicitada')
     return render(request, 'citas_pendientes.html', {
         'citas': citas})
 
@@ -128,7 +128,7 @@ def crear_cita(request):
             form = FormularioCita(request.POST)
             nueva_cita = form.save(commit=False)
             nueva_cita.user = request.user
-            nueva_cita.estado = 'P'
+            nueva_cita.estado = 'Pendiente'
             nueva_cita.save()
             return redirect('citas')
         except ValueError:
@@ -139,6 +139,7 @@ def crear_cita(request):
 
 def vista_horario(request):
     if request.user.username == 'espy':
+        
         # horarios = Horario.objects.all()
         return render(request, 'vista_horario.html',{'vista_horario': vista_horario})
 

@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
 <!DOCTYPE html>
-<<html>
+<html>
     <head>
         <title>Horario</title>
     </head>
@@ -9,10 +9,12 @@
         <h1>Horario Semanal</h1>
         <table border="1">
             <tr>
-                <th>Día</th>
                 <th>Hora</th>
-                <th>Disponibilidad</th>
-                <th>Acciones</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miercoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
             </tr>
             {% for dia, franjas in horario.items %}
                 {% for franja, disponibilidad in franjas.items %}
