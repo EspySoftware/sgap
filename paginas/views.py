@@ -3,15 +3,10 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-<<<<<<< Updated upstream
-from .forms import FormularioCita
-from .models import Cita, Horario
-=======
 from .forms import FormularioCita, FormularioHorario
 from .models import Cita, Horario
 from datetime import datetime, timedelta, time
 from django.http import JsonResponse
->>>>>>> Stashed changes
 
 # Create your views here.
 
@@ -144,14 +139,6 @@ def crear_cita(request):
                 'error': 'Por favor, verifica los datos ingresados'
             })
 
-<<<<<<< Updated upstream
-def vista_horario(request):
-    if request.user.username == 'espy':
-        
-        # horarios = Horario.objects.all()
-        return render(request, 'vista_horario.html',{'vista_horario': vista_horario})
-
-=======
 def generar_horario():
     dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
     horas = [time(h, 0) for h in range(7, 17)]
@@ -212,4 +199,3 @@ def actualizar_horario(request, pk):
         horario.save()
         return JsonResponse({'status': 'ok', 'estado': horario.get_estado_display()})
     return JsonResponse({'status': 'fail'})
->>>>>>> Stashed changes

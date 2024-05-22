@@ -24,12 +24,6 @@ class Cita(models.Model):
     
     def __str__(self):
         return ' ' + self.titulo + ' - ' + self.user.username
-<<<<<<< Updated upstream
-
-
-class Horario(models.Model):
-    agendado ='a'
-=======
     
 class Horario(models.Model):
     ESTADO_CHOICES = [
@@ -44,4 +38,3 @@ class Horario(models.Model):
     
     def __str__(self):
         return f"{self.inicio} - {self.fin}: {self.get_estado_display()}"
->>>>>>> Stashed changes

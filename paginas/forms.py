@@ -1,8 +1,5 @@
 from django.forms import ModelForm
-<<<<<<< Updated upstream
-=======
 from .models import Cita, Horario
->>>>>>> Stashed changes
 from django import forms
 from .models import Cita
 
