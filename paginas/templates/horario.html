@@ -71,7 +71,7 @@
             {% endfor %}
         </tbody>
     </table>
-
+    {% if user.is_staff %}
     <div class="context-menu" id="context-menu">
         <ul>
             <li data-estado="disponible">Disponible</li>
@@ -79,7 +79,7 @@
             <li data-estado="cita_agendada">Cita agendada</li>
         </ul>
     </div>
-
+    {% endif %}
     <script>
         $(document).ready(function() {
             var $contextMenu = $("#context-menu");
