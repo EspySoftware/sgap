@@ -10,8 +10,10 @@ from django.http import JsonResponse
 
 # Create your views here.
 
+
 def home(request):
     return render(request, 'home.html')
+
 
 def signup(request):
     if request.method == 'GET':
@@ -36,6 +38,7 @@ def signup(request):
                        'error': 'Las contraseñas no coinciden'},
                       )
 
+
 def citas(request):
     if request.user.username == 'espy':
         citas = Cita.objects.all()  # VISTA DEL ORIENTADOR
@@ -44,6 +47,7 @@ def citas(request):
     return render(request, 'citas.html', {
         'citas': citas
     })
+
 
 def detalle_cita(request, id_cita):
     if request.user.username == 'espy':
@@ -55,7 +59,12 @@ def detalle_cita(request, id_cita):
             try:
                 cita = get_object_or_404(Cita, pk=id_cita)
                 form = FormularioCita(request.POST, instance=cita)
-                form.save()
+                action = request.POST.get('action')
+                if action == 'cancel':
+                    cita.estado = 'Declinada'
+                else:
+                    form.save()
+                cita.save()
                 return redirect('citas')
             except ValueError:
                 return render(request, 'detalle_cita.html', {
@@ -72,7 +81,10 @@ def detalle_cita(request, id_cita):
             try:
                 cita = get_object_or_404(Cita, pk=id_cita, user=request.user)
                 form = FormularioCita(request.POST, instance=cita)
-                form.save()
+                action = request.POST.get('action')
+                if action == 'cancel':
+                    cita.estado = 'Declinada'
+                cita.save()
                 return redirect('citas')
             except ValueError:
                 return render(request, 'detalle_cita.html', {
@@ -80,6 +92,7 @@ def detalle_cita(request, id_cita):
                     'form': form,
                     'error': 'Por favor, verifica los datos ingresados'
                 })
+
 
 def citas_confirmadas(request):
     if request.user.username == 'espy':
@@ -89,7 +102,8 @@ def citas_confirmadas(request):
             estado='Confirmada', user=request.user).order_by('fecha')
     return render(request, 'citas_confirmadas.html', {
         'citas': citas})
-    
+
+
 def citas_pendientes(request):
     if request.user.username == 'espy':
         citas = Cita.objects.filter(estado='Pendiente').order_by('solicitada')
@@ -99,9 +113,11 @@ def citas_pendientes(request):
     return render(request, 'citas_pendientes.html', {
         'citas': citas})
 
+
 def signout(request):
     logout(request)
     return redirect('/')
+
 
 def signin(request):
     if request.method == 'GET':
@@ -120,10 +136,11 @@ def signin(request):
             login(request, user)
             return redirect('citas')
 
+
 def crear_cita(request):
     if request.method == "GET":
         return render(request, 'crear_cita.html', {
-            'form': FormularioCita  
+            'form': FormularioCita
         })
     else:
         try:
@@ -138,6 +155,7 @@ def crear_cita(request):
                 'form': FormularioCita,
                 'error': 'Por favor, verifica los datos ingresados'
             })
+
 
 def generar_horario():
     dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
@@ -159,7 +177,8 @@ def horario(request):
     horarios = Horario.objects.all()
 
     for horario in horarios:
-        dia_semana = horario.inicio.strftime('%A')  # Día de la semana en inglés
+        dia_semana = horario.inicio.strftime(
+            '%A')  # Día de la semana en inglés
         dia_semana_traducido = {
             'Monday': 'Lunes',
             'Tuesday': 'Martes',
@@ -167,7 +186,7 @@ def horario(request):
             'Thursday': 'Jueves',
             'Friday': 'Viernes'
         }.get(dia_semana, None)
-        
+
         if dia_semana_traducido and horario.inicio.time() in horario_estructura[dia_semana_traducido]:
             horario_estructura[dia_semana_traducido][horario.inicio.time()] = {
                 'id': horario.id,
@@ -178,12 +197,13 @@ def horario(request):
     print(horario_estructura)
     return render(request, 'horario.html', {'horario_estructura': horario_estructura})
 
+
 def crear_horario(request):
     if request.method == 'POST':
         dia = request.POST.get('dia')
         hora = request.POST.get('hora')
         estado = request.POST.get('estado')
-        
+
         dia_semana_ingles = {
             'Lunes': 'Monday',
             'Martes': 'Tuesday',
@@ -191,12 +211,13 @@ def crear_horario(request):
             'Jueves': 'Thursday',
             'Viernes': 'Friday'
         }.get(dia)
-        
+
         hora = datetime.strptime(hora, '%H:%M:%S').time()
-        fecha = datetime.strptime('2024-05-20', '%Y-%m-%d')  # Una fecha de referencia que sea un lunes
+        # Una fecha de referencia que sea un lunes
+        fecha = datetime.strptime('2024-05-20', '%Y-%m-%d')
         while fecha.strftime('%A') != dia_semana_ingles:
             fecha += timedelta(days=1)
-        
+
         inicio = datetime.combine(fecha.date(), hora)
         fin = inicio + timedelta(hours=1)
         
@@ -204,6 +225,7 @@ def crear_horario(request):
         
         return JsonResponse({'status': 'ok', 'id': nuevo_horario.id, 'estado': nuevo_horario.estado})
     return JsonResponse({'status': 'fail'})
+
 
 def actualizar_horario(request, pk):
     if request.method == 'POST':

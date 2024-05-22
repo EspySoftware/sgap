@@ -1,27 +1,103 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <h1>{{cita.titulo}}</h1>
 {{error}}
 <form method="POST">
-    {% csrf_token %}
-    <input
-        type= hidden
-        id="{{ field.id_for_label }}"
-        name="titulo"
-        value = "{{ form.titulo.value }}"
-    />
-    <input
-        type= hidden
-        id="{{ field.id_for_label }}"
-        name="motivo"
-        value = "{{ form.motivo.value }}"
-    />
-    <p>Titulo: {{ form.titulo.value }}</p>
-    <p>Motivo: {{ form.motivo.value }}</p>
-    {% if user.is_staff %}
-        <p>Fecha: {{ form.fecha }}</p>
-        <p>Estado: {{ form.estado }}</p>
-    {% endif %}   
-    <button>Guardar</button>
+  {% csrf_token %}
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="matricula"
+    value="{{ form.matricula.value }}"
+  />
+  <p>Matricula: {{ form.matricula.value }}</p>
+
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="ap_paterno"
+    value="{{ form.ap_paterno.value }}"
+  />
+  <p>Apellido Paterno: {{ form.ap_paterno.value }}</p>
+
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="ap_materno"
+    value="{{ form.ap_materno.value }}"
+  />
+  <p>Apellido Materno: {{ form.ap_materno.value }}</p>
+
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="nombre"
+    value="{{ form.nombre.value }}"
+  />
+  <p>Nombre: {{ form.nombre.value }}</p>
+
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="semestre"
+    value="{{ form.semestre.value }}"
+  />
+  <p>Semestre: {{ form.semestre.value }}</p>
+
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="sexo"
+    value="{{ form.sexo.value }}"
+  />
+  <p>Sexo: {{ form.sexo.value }}</p>
+
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="carrera"
+    value="{{ form.carrera.value }}"
+  />
+  <p>Carrera: {{ form.carrera.value }}</p>
+
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="asunto"
+    value="{{ form.asunto.value }}"
+  />
+  <p>Asunto: {{ form.asunto.value }}</p>
+
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="descripcion"
+    value="{{ form.descripcion.value }}"
+  />
+  <p>Descripcion: {{ form.descripcion.value }}</p>
+
+  {% if not user.is_staff %}
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="fecha"
+    value="{{ form.fecha.value }}"
+  />
+  <p>Fecha: {{ form.fecha.value }}</p>
+
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="estado"
+    value="{{ form.estado.value }}"
+  />
+  <p>Estado: {{ form.estado.value }}</p>
+  <button type="submit" name="action" value="cancel">Declinar cita</button>
+  <button type="submit" name="action" value="save">Salir</button>
+  {% else %}
+  <p>Estado: {{ form.estado.value }}</p>
+  <p>Fecha: {{ form.fecha }}</p>
+  <p>Estado: {{ form.estado }}</p>
+  <button type="submit" name="action" value="save">Guardar</button>
+  {% endif %}
 </form>
 {% endblock %}
