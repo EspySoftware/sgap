@@ -4,8 +4,10 @@
 {{error}}
 <form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
+    <p>Titulo: {{ form.titulo.value }}</p>
+    <p>Motivo: {{ form.motivo.value }}</p>
+    <p>Fecha: {{ form.fecha }}</p>
+    <p>Estado: {{ form.estado }}</p>
     <button>Guardar</button>
-
 </form>
 {% endblock %}
