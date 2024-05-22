@@ -148,7 +148,7 @@ def generar_horario():
     for dia in dias:
         horario[dia] = {}
         for hora in horas:
-            horario[dia][hora] = {'id': ident, 'actividad': "HOLA"}
+            horario[dia][hora] = {'id': ident, 'estado': "Disponible"}
             ident += 1
             
     return horario
@@ -156,7 +156,6 @@ def generar_horario():
 
 def horario(request):
     horario_estructura = generar_horario()
-    print(horario_estructura)
     horarios = Horario.objects.all()
 
     for horario in horarios:
@@ -170,8 +169,13 @@ def horario(request):
         }.get(dia_semana, None)
         
         if dia_semana_traducido and horario.inicio.time() in horario_estructura[dia_semana_traducido]:
-            horario_estructura[dia_semana_traducido][horario.inicio.time()] = horario
+            horario_estructura[dia_semana_traducido][horario.inicio.time()] = {
+                'id': horario.id,
+                'estado': horario.estado
+            }
 
+
+    print(horario_estructura)
     return render(request, 'horario.html', {'horario_estructura': horario_estructura})
 
 def crear_horario(request):
@@ -198,7 +202,7 @@ def crear_horario(request):
         
         nuevo_horario = Horario.objects.create(inicio=inicio, fin=fin, estado=estado)
         
-        return JsonResponse({'status': 'ok', 'id': nuevo_horario.id, 'estado': nuevo_horario.get_estado_display()})
+        return JsonResponse({'status': 'ok', 'id': nuevo_horario.id, 'estado': nuevo_horario.estado})
     return JsonResponse({'status': 'fail'})
 
 def actualizar_horario(request, pk):

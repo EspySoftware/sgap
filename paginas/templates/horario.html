@@ -2,7 +2,7 @@
 {% block content %}
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
     <title>Horarios</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -44,6 +44,7 @@
     </style>
 </head>
 <body>
+    {% load dict_key %}
     <h1>Horarios</h1>
     <table>
         <thead>
@@ -58,29 +59,18 @@
             {% for hora in horario_estructura.Lunes.keys %}
             <tr>
                 <td>{{ hora }}</td>
-
                 {% for dia in horario_estructura.keys %}
-                {% with horario=horario_estructura.dia.hora %}
+                {% with horario=horario_estructura|get_item:dia|get_item:hora %}
                 <td class="editable" data-dia="{{ dia }}" data-hora="{{ hora }}" 
-                    data-id="{{ horario.id }}">
-                    {% if horario %}
-                        {{ horario.actividad }}
-                    {% else %}
-                        Disponible
-                    {% endif %}
-                
+                data-id="{{ horario.id }}" data-estado="{{ horario.estado }}">
+                    {{ horario.estado }}
                 </td>
                 {% endwith %}
                 {% endfor %}
-
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    
-    
-
-    
 
     <div class="context-menu" id="context-menu">
         <ul>
