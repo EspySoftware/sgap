@@ -1,45 +1,32 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+{% block content %}
 <div class="container">
   <div class="row justify-content-center">
     <h1 class="text-center mt-3">Agendar cita</h1>
     <div class="col-md-4">
       <form action="" method="POST" class="mt-4">
-        {% csrf_token %} {% for field in form %}
+        {% csrf_token %}
+        {% for field in form %}
         {% if field.name == 'estado' %}
           {% if user.is_staff %}
           <div class="form-group mb-3">
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            <input
-              type="{{ field.field.widget.input_type }}"
-              class="form-control"
-              id="{{ field.id_for_label }}"
-              name="{{ field.html_name }}"
-            />
+            {{ field }}
           </div>
           {% endif %}
           <div class="form-group mb-3">
             <input
-              type= hidden
+              type="hidden"
               id="{{ field.id_for_label }}"
               name="estado"
-              value = "Pendiente"
+              value="Pendiente"
             />
           </div>
         {% else %}
         <div class="form-group mb-3">
           <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-          <input
-            type="{{ field.field.widget.input_type }}"
-            class="form-control"
-            id="{{ field.id_for_label }}"
-            name="{{ field.html_name }}"
-            {%
-            if
-            field.field.required
-            %}required{%
-            endif
-            %}
-          />
+          {{ field }}
         </div>
         {% endif %}
         {% endfor %}
@@ -49,7 +36,7 @@
       </form>
 
       {% if error %}
-      <div class="alert alert-danger mt-3" role="alert">{{error}}</div>
+      <div class="alert alert-danger mt-3" role="alert">{{ error }}</div>
       {% endif %}
     </div>
   </div>
