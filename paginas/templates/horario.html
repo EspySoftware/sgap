@@ -49,35 +49,38 @@
         <thead>
             <tr>
                 <th>Hora</th>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
+                {% for dia in horario_estructura.keys %}
+                <th>{{ dia }}</th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
             {% for hora in horario_estructura.Lunes.keys %}
             <tr>
                 <td>{{ hora }}</td>
+
                 {% for dia in horario_estructura.keys %}
-                {% with horario_estructura|default_if_none:None as horario_dia %}
-                {% with hora as horario %}
+                {% with horario=horario_estructura.dia.hora %}
                 <td class="editable" data-dia="{{ dia }}" data-hora="{{ hora }}" 
-                    data-id="{% if horario %}{{ horario.id }}{% endif %}">
+                    data-id="{{ horario.id }}">
                     {% if horario %}
-                        {{ horario.get_estado_display }}
+                        {{ horario.actividad }}
                     {% else %}
                         Disponible
                     {% endif %}
+                
                 </td>
                 {% endwith %}
-                {% endwith %}
                 {% endfor %}
+
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    
+    
+
+    
 
     <div class="context-menu" id="context-menu">
         <ul>
