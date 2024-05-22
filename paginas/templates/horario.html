@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Horarios</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .editable:hover {
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        .context-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        .context-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .context-menu ul li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        .context-menu ul li:hover {
+            background-color: #eee;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Horarios</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hora in horario_estructura.Lunes.keys %}
+            <tr>
+                <td>{{ hora }}</td>
+                {% for dia in horario_estructura.keys %}
+                {% with horario_estructura|default_if_none:None as horario_dia %}
+                {% with hora as horario %}
+                <td class="editable" data-dia="{{ dia }}" data-hora="{{ hora }}" 
+                    data-id="{% if horario %}{{ horario.id }}{% endif %}">
+                    {% if horario %}
+                        {{ horario.get_estado_display }}
+                    {% else %}
+                        Disponible
+                    {% endif %}
+                </td>
+                {% endwith %}
+                {% endwith %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="context-menu" id="context-menu">
+        <ul>
+            <li data-estado="disponible">Disponible</li>
+            <li data-estado="no_disponible">No disponible</li>
+            <li data-estado="cita_agendada">Cita agendada</li>
+        </ul>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var $contextMenu = $("#context-menu");
+
+            $(".editable").on("contextmenu", function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                $contextMenu.css({
+                    display: "block",
+                    left: e.pageX,
+                    top: e.pageY
+                }).data("id", $this.data("id")).data("dia", $this.data("dia")).data("hora", $this.data("hora"));
+            });
+
+            $(document).on("click", function() {
+                $contextMenu.hide();
+            });
+
+            $contextMenu.on("click", "li", function() {
+                var estado = $(this).data("estado");
+                var id = $contextMenu.data("id");
+                var dia = $contextMenu.data("dia");
+                var hora = $contextMenu.data("hora");
+
+                if (id) {
+                    $.ajax({
+                        url: "/actualizar_horario/" + id + "/",
+                        type: "POST",
+                        data: {
+                            'estado': estado,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                        success: function(response) {
+                            if (response.status == 'ok') {
+                                $('td[data-id="' + id + '"]').text(response.estado);
+                            }
+                        },
+                        error: function() {
+                            alert('Error al actualizar el horario.');
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: "/crear_horario/",
+                        type: "POST",
+                        data: {
+                            'dia': dia,
+                            'hora': hora,
+                            'estado': estado,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                        success: function(response) {
+                            if (response.status == 'ok') {
+                                var newId = response.id;
+                                $('td[data-dia="' + dia + '"][data-hora="' + hora + '"]').attr('data-id', newId).text(response.estado);
+                            }
+                        },
+                        error: function() {
+                            alert('Error al crear el horario.');
+                        }
+                    });
+                }
+                $contextMenu.hide();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -24,7 +24,24 @@ class Cita(models.Model):
     
     def __str__(self):
         return ' ' + self.titulo + ' - ' + self.user.username
+<<<<<<< Updated upstream
 
 
 class Horario(models.Model):
     agendado ='a'
+=======
+    
+class Horario(models.Model):
+    ESTADO_CHOICES = [
+        ('disponible', 'Disponible'),
+        ('no_disponible', 'No disponible'),
+        ('cita_agendada', 'Cita agendada'),
+    ]
+    
+    inicio = models.DateTimeField()
+    fin = models.DateTimeField()
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='disponible')
+    
+    def __str__(self):
+        return f"{self.inicio} - {self.fin}: {self.get_estado_display()}"
+>>>>>>> Stashed changes

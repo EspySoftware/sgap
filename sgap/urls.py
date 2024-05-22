@@ -28,6 +28,12 @@ urlpatterns = [
     path('citas/<int:id_cita>', views.detalle_cita, name = 'detalle_cita'),
     path('citas_confirmadas/', views.citas_confirmadas, name = 'citas_confirmadas'),
     path('citas_pendientes/', views.citas_pendientes, name = 'citas_pendientes'),
+<<<<<<< Updated upstream
     path('vista_horario/', views.vista_horario, name = 'vista_horario'),
+=======
+    path('horario/', views.horario, name = 'horario'),
+    path('actualizar_horario/<int:pk>/', views.actualizar_horario, name='actualizar_horario'),
+    path('crear_horario/', views.crear_horario, name='crear_horario'),
+>>>>>>> Stashed changes
     ]
     

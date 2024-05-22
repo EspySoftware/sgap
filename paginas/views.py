@@ -3,8 +3,15 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
+<<<<<<< Updated upstream
 from .forms import FormularioCita
 from .models import Cita, Horario
+=======
+from .forms import FormularioCita, FormularioHorario
+from .models import Cita, Horario
+from datetime import datetime, timedelta, time
+from django.http import JsonResponse
+>>>>>>> Stashed changes
 
 # Create your views here.
 
@@ -137,9 +144,72 @@ def crear_cita(request):
                 'error': 'Por favor, verifica los datos ingresados'
             })
 
+<<<<<<< Updated upstream
 def vista_horario(request):
     if request.user.username == 'espy':
         
         # horarios = Horario.objects.all()
         return render(request, 'vista_horario.html',{'vista_horario': vista_horario})
 
+=======
+def generar_horario():
+    dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
+    horas = [time(h, 0) for h in range(7, 17)]
+    horario = {dia: {hora: None for hora in horas} for dia in dias}
+    return horario
+
+def horario(request):
+    horario_estructura = generar_horario()
+    horarios = Horario.objects.all()
+
+    for horario in horarios:
+        dia_semana = horario.inicio.strftime('%A')  # Día de la semana en inglés
+        dia_semana_traducido = {
+            'Monday': 'Lunes',
+            'Tuesday': 'Martes',
+            'Wednesday': 'Miércoles',
+            'Thursday': 'Jueves',
+            'Friday': 'Viernes'
+        }.get(dia_semana, None)
+        
+        if dia_semana_traducido and horario.inicio.time() in horario_estructura[dia_semana_traducido]:
+            horario_estructura[dia_semana_traducido][horario.inicio.time()] = horario
+
+    return render(request, 'horario.html', {'horario_estructura': horario_estructura})
+
+def crear_horario(request):
+    if request.method == 'POST':
+        dia = request.POST.get('dia')
+        hora = request.POST.get('hora')
+        estado = request.POST.get('estado')
+        
+        dia_semana_ingles = {
+            'Lunes': 'Monday',
+            'Martes': 'Tuesday',
+            'Miércoles': 'Wednesday',
+            'Jueves': 'Thursday',
+            'Viernes': 'Friday'
+        }.get(dia)
+        
+        hora = datetime.strptime(hora, '%H:%M:%S').time()
+        fecha = datetime.strptime('2024-05-20', '%Y-%m-%d')  # Una fecha de referencia que sea un lunes
+        while fecha.strftime('%A') != dia_semana_ingles:
+            fecha += timedelta(days=1)
+        
+        inicio = datetime.combine(fecha.date(), hora)
+        fin = inicio + timedelta(hours=1)
+        
+        nuevo_horario = Horario.objects.create(inicio=inicio, fin=fin, estado=estado)
+        
+        return JsonResponse({'status': 'ok', 'id': nuevo_horario.id, 'estado': nuevo_horario.get_estado_display()})
+    return JsonResponse({'status': 'fail'})
+
+def actualizar_horario(request, pk):
+    if request.method == 'POST':
+        horario = get_object_or_404(Horario, pk=pk)
+        nuevo_estado = request.POST.get('estado')
+        horario.estado = nuevo_estado
+        horario.save()
+        return JsonResponse({'status': 'ok', 'estado': horario.get_estado_display()})
+    return JsonResponse({'status': 'fail'})
+>>>>>>> Stashed changes
