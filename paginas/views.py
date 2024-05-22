@@ -160,12 +160,21 @@ def crear_cita(request):
 def generar_horario():
     dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
     horas = [time(h, 0) for h in range(7, 17)]
-    horario = {dia: {hora: None for hora in horas} for dia in dias}
+    
+    ident = 1
+    horario = {}
+    for dia in dias:
+        horario[dia] = {}
+        for hora in horas:
+            horario[dia][hora] = {'id': ident, 'actividad': "HOLA"}
+            ident += 1
+            
     return horario
 
 
 def horario(request):
     horario_estructura = generar_horario()
+    print(horario_estructura)
     horarios = Horario.objects.all()
 
     for horario in horarios:
