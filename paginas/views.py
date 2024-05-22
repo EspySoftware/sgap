@@ -4,14 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import FormularioCita
-from .models import Cita
+from .models import Cita, Horario
 
 # Create your views here.
 
-
 def home(request):
     return render(request, 'home.html')
-
 
 def signup(request):
     if request.method == 'GET':
@@ -36,7 +34,6 @@ def signup(request):
                        'error': 'Las contraseñas no coinciden'},
                       )
 
-
 def citas(request):
     if request.user.username == 'espy':
         citas = Cita.objects.all()  # VISTA DEL ORIENTADOR
@@ -45,7 +42,6 @@ def citas(request):
     return render(request, 'citas.html', {
         'citas': citas
     })
-
 
 def detalle_cita(request, id_cita):
     if request.user.username == 'espy':
@@ -83,7 +79,6 @@ def detalle_cita(request, id_cita):
                     'error': 'Por favor, verifica los datos ingresados'
                 })
 
-
 def citas_confirmadas(request):
     if request.user.username == 'espy':
         citas = Cita.objects.filter(estado='C').order_by('fecha')
@@ -102,12 +97,9 @@ def citas_pendientes(request):
     return render(request, 'citas_pendientes.html', {
         'citas': citas})
 
-
-
 def signout(request):
     logout(request)
     return redirect('/')
-
 
 def signin(request):
     if request.method == 'GET':
@@ -125,7 +117,6 @@ def signin(request):
         else:
             login(request, user)
             return redirect('citas')
-
 
 def crear_cita(request):
     if request.method == "GET":
@@ -145,4 +136,9 @@ def crear_cita(request):
                 'form': FormularioCita,
                 'error': 'Por favor, verifica los datos ingresados'
             })
+
+def vista_horario(request):
+    if request.user.username == 'espy':
+        # horarios = Horario.objects.all()
+        return render(request, 'vista_horario.html',{'vista_horario': vista_horario})
 

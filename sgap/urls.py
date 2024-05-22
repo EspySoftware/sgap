@@ -28,5 +28,6 @@ urlpatterns = [
     path('citas/<int:id_cita>', views.detalle_cita, name = 'detalle_cita'),
     path('citas_confirmadas/', views.citas_confirmadas, name = 'citas_confirmadas'),
     path('citas_pendientes/', views.citas_pendientes, name = 'citas_pendientes'),
+    path('vista_horario/', views.vista_horario, name = 'vista_horario'),
     ]
     

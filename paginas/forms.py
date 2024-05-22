@@ -1,6 +1,6 @@
 from django.forms import ModelForm
-from .models import Cita
 from django import forms
+from .models import Cita
 
 class FormularioCita(ModelForm):
     class Meta:

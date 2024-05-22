@@ -24,3 +24,7 @@ class Cita(models.Model):
     
     def __str__(self):
         return ' ' + self.titulo + ' - ' + self.user.username
+
+
+class Horario(models.Model):
+    agendado ='a'
