@@ -62,9 +62,11 @@ def detalle_cita(request, id_cita):
                 action = request.POST.get('action')
                 if action == 'cancel':
                     cita.estado = 'Declinada'
-                else:
+                if action == 'save':
+                    cita.save()
                     form.save()
-                cita.save()
+                else:
+                    cita.save()
                 return redirect('citas')
             except ValueError:
                 return render(request, 'detalle_cita.html', {
@@ -84,7 +86,11 @@ def detalle_cita(request, id_cita):
                 action = request.POST.get('action')
                 if action == 'cancel':
                     cita.estado = 'Declinada'
-                cita.save()
+                if action == 'save':
+                    cita.save()
+                    form.save()
+                else:
+                    cita.save()
                 return redirect('citas')
             except ValueError:
                 return render(request, 'detalle_cita.html', {

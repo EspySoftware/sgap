@@ -75,29 +75,48 @@
   />
   <p>Descripcion: {{ form.descripcion.value }}</p>
 
-  {% if not user.is_staff %}
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="fecha"
-    value="{{ form.fecha.value }}"
-  />
-  <p>Fecha: {{ form.fecha.value }}</p>
+{% if form.estado.value == 'Declinada' %}
+    <input
+        type="hidden"
+        id="{{ field.id_for_label }}"
+        name="fecha"
+        value="{{ form.fecha.value }}"
+    />
+    <p>Fecha: {{ form.fecha.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="estado"
-    value="{{ form.estado.value }}"
-  />
-  <p>Estado: {{ form.estado.value }}</p>
-  <button type="submit" name="action" value="cancel">Declinar cita</button>
-  <button type="submit" name="action" value="save">Salir</button>
-  {% else %}
-  <p>Estado: {{ form.estado.value }}</p>
-  <p>Fecha: {{ form.fecha }}</p>
-  <p>Estado: {{ form.estado }}</p>
-  <button type="submit" name="action" value="save">Guardar</button>
-  {% endif %}
+    <input
+        type="hidden"
+        id="{{ field.id_for_label }}"
+        name="estado"
+        value="{{ form.estado.value }}"
+    />
+    <p>Estado: {{ form.estado.value }}</p>
+
+    <button type="submit" name="action" value="salir">Salir</button>
+{% else %} 
+    {% if not user.is_staff %}
+        <input
+            type="hidden"
+            id="{{ field.id_for_label }}"
+            name="fecha"
+            value="{{ form.fecha.value }}"
+        />
+        <p>Fecha: {{ form.fecha.value }}</p>
+
+        <input
+            type="hidden"
+            id="{{ field.id_for_label }}"
+            name="estado"
+            value="{{ form.estado.value }}"
+        />
+        <p>Estado: {{ form.estado.value }}</p>
+        <button type="submit" name="action" value="cancel">Declinar cita</button>
+        <button type="submit" name="action" value="salir">Salir</button>
+    {% else %}
+        <p>Fecha: {{ form.fecha }}</p>
+        <p>Estado: {{ form.estado }}</p>
+        <button type="submit" name="action" value="save">Guardar</button>
+    {% endif %} 
+{% endif %}
 </form>
 {% endblock %}
