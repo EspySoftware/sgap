@@ -4,10 +4,24 @@
 {{error}}
 <form method="POST">
     {% csrf_token %}
+    <input
+        type= hidden
+        id="{{ field.id_for_label }}"
+        name="titulo"
+        value = "{{ form.titulo.value }}"
+    />
+    <input
+        type= hidden
+        id="{{ field.id_for_label }}"
+        name="motivo"
+        value = "{{ form.motivo.value }}"
+    />
     <p>Titulo: {{ form.titulo.value }}</p>
     <p>Motivo: {{ form.motivo.value }}</p>
-    <p>Fecha: {{ form.fecha }}</p>
-    <p>Estado: {{ form.estado }}</p>
+    {% if user.is_staff %}
+        <p>Fecha: {{ form.fecha }}</p>
+        <p>Estado: {{ form.estado }}</p>
+    {% endif %}   
     <button>Guardar</button>
 </form>
 {% endblock %}
