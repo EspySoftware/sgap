@@ -194,6 +194,7 @@ def generar_horario():
 def horario(request):
     horario_estructura = generar_horario()
     horarios = Horario.objects.all()
+    print(horarios)
 
     for horario in horarios:
         dia_semana = horario.inicio.strftime(
@@ -247,6 +248,8 @@ def crear_horario(request):
 
 
 def actualizar_horario(request, pk):
+    print(request)
+
     if request.method == 'POST':
         horario = get_object_or_404(Horario, pk=pk)
         nuevo_estado = request.POST.get('estado')
