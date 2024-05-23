@@ -13,6 +13,7 @@ class FormularioCita(ModelForm):
             'sexo': forms.Select(choices=Cita.GENERO),
             'carrera': forms.Select(choices=Cita.CARRERAS),
             'asunto': forms.Select(choices=Cita.ASUNTOS),
+            'semestre': forms.Select(choices=Cita.SEMESTRES),
         }   
 
 class FormularioHorario(forms.ModelForm):

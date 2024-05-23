@@ -12,6 +12,7 @@
         <th scope="col">Nombre</th>
         <th scope="col">Asunto</th>
         <th scope="col">Descripcion</th>
+        <th scope="col">Comentarios</th>
         <th scope="col">Estado</th>
         {% if user.username == 'espy' or user == 'orientador' %}
         <th scope="col">Acciones</th>
@@ -24,11 +25,12 @@
       {% for cita in citas %}
       <tr>
         <td>{{ cita.matricula }}</td>
-        <td>{{ cita.ap_paterno }}</td>
-        <td>{{ cita.ap_materno }}</td>
+        <td>{{ cita.apellido_paterno }}</td>
+        <td>{{ cita.apellido_materno }}</td>
         <td>{{ cita.nombre }}</td>
         <td>{{ cita.asunto }}</td>
         <td>{{ cita.descripcion }}</td>
+        <td>{{ cita.comentarios }}</td>
         <td>{{ cita.estado }}</td>
         {% if user.username == 'espy' or user == 'orientador' %}
         <td>
