@@ -71,56 +71,7 @@
             {% endfor %}
         </tbody>
     </table>
-    {% if user.is_staff %}
-    <div class="context-menu" id="context-menu">
-        <ul>
-            <li data-estado="disponible">Disponible</li>
-            <li data-estado="no_disponible">No disponible</li>
-            <li data-estado="cita_agendada">Cita agendada</li>
-        </ul>
-    </div>
-    {% endif %}
-    <script>
-        $(document).ready(function() {
-            var $contextMenu = $("#context-menu");
-
-            $(".editable").on("contextmenu", function(e) {
-                e.preventDefault();
-                var $this = $(this);
-                $contextMenu.css({
-                    display: "block",
-                    left: e.pageX,
-                    top: e.pageY
-                }).data("id", $this.data("id")).data("dia", $this.data("dia")).data("hora", $this.data("hora"));
-            });
-
-            $(document).on("click", function() {
-                $contextMenu.hide();
-            });
-
-            $contextMenu.on("click", "li", function() {
-                var estado = $(this).data("estado");
-                var id = $contextMenu.data("id");
-                var dia = $contextMenu.data("dia");
-                var hora = $contextMenu.data("hora");
-
-                if (id) {
-                    $.ajax({
-                        url: "/actualizar_horario/" + id + "/",
-                        type: "POST",
-                        data: {
-                            'estado': estado,
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'
-                        },
-                        success: function(response) {
-                            if (response.status == 'ok') {
-                                $('td[data-id="' + id + '"]').text(response.estado);
-                            }
-                        },
-                        error: function() {
-                            alert('Error al actualizar el horario.');
-                        }
-                    });
+ 
                 } else {
                     $.ajax({
                         url: "/crear_horario/",
