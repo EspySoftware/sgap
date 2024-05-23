@@ -61,9 +61,8 @@
                 <td>{{ hora }}</td>
                 {% for dia in horario_estructura.keys %}
                 {% with horario=horario_estructura|get_item:dia|get_item:hora %}
-                <td class="editable" data-dia="{{ dia }}" data-hora="{{ hora }}" 
+                <td class="editable {% if horario.estado == 'disponible' %} bg-success {% endif %} {% if horario.estado == 'no_disponible' %} bg-danger {% endif %} {% if horario.estado == 'cita_agendada' %} bg-warning {% endif %} " data-dia="{{ dia }}" data-hora="{{ hora }}" 
                 data-id="{{ horario.id }}" data-estado="{{ horario.estado }}">
-                    {{ horario.estado }}
                 </td>
                 {% endwith %}
                 {% endfor %}
@@ -114,7 +113,8 @@
                         },
                         success: function(response) {
                             if (response.status == 'ok') {
-                                $('td[data-id="' + id + '"]').text(response.estado);
+                                // Cambiar color de celda según el estado
+                                $('td[data-id="' + id + '"]').removeClass('bg-success bg-danger bg-warning').addClass(estado == 'disponible' ? 'bg-success' : estado == 'no_disponible' ? 'bg-danger' : 'bg-warning');
                             }
                         },
                         error: function() {

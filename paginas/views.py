@@ -178,7 +178,7 @@ def crear_cita(request):
 
 def generar_horario():
     dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
-    horas = [time(h, 0) for h in range(7, 17)]
+    horas = [time(h, 0) for h in range(7, 19)]
     
     ident = 1
     horario = {}
@@ -261,7 +261,7 @@ def actualizar_horario(request, pk):
 def create_horarios():
     # Define the start and end times
     start_time = time(7, 0)
-    end_time = time(17, 0)
+    end_time = time(19, 0)
 
     # Calculate the number of hours between start and end times
     hours = int((datetime.combine(date.today(), end_time) - datetime.combine(date.today(), start_time)).total_seconds() / 3600)
@@ -275,7 +275,7 @@ def create_horarios():
         for i in range(hours):
             # Calculate the start and end times for this schedule
             inicio = timezone.now().replace(hour=start_time.hour + i, minute=0, second=0, microsecond=0) + timedelta(days=day)
-            inicio = inicio.replace(year=next_monday.year, month=next_monday.month, day=next_monday.day)
+            inicio = inicio.replace(year=next_monday.year, month=next_monday.month, day=next_monday.day + day)
             fin = inicio + timedelta(hours=1)
             estado = 'disponible'
 
