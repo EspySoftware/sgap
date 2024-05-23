@@ -13,6 +13,7 @@
       <th scope="col">Nombre</th>
       <th scope="col">Asunto</th>
       <th scope="col">Descripcion</th>
+      <th scope="col">Comentarios</th>
       <th scope="col">Estado</th>
       {% if user.username == 'espy' or user == 'orientador' %}
       <th scope="col">Acciones</th>
@@ -30,6 +31,7 @@
       <td>{{ cita.nombre }}</td>
       <td>{{ cita.asunto }}</td>
       <td>{{ cita.descripcion }}</td>
+      <td>{{ cita.comentarios }}</td>
       <td>{{ cita.estado }}</td>
       {% if user.username == 'espy' or user == 'orientador' %}
       <td>

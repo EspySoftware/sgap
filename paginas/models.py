@@ -79,6 +79,11 @@ class Cita(models.Model):
     descripcion = models.TextField(max_length = 200)
     semestre = models.CharField(max_length = 2)
     fecha = models.DateTimeField()
+    comentarios = models.TextField(
+        max_length = 200,
+        default = "No hay comentarios."
+        )
+    
     sexo = models.CharField(
         max_length = 20,
         choices = GENERO,

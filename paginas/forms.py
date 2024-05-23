@@ -6,7 +6,7 @@ from .models import Cita
 class FormularioCita(ModelForm):
     class Meta:
         model = Cita
-        fields = ['matricula', 'ap_paterno', 'ap_materno', 'nombre', 'sexo', 'semestre', 'carrera', 'asunto', 'descripcion', 'fecha', 'estado']
+        fields = ['matricula', 'ap_paterno', 'ap_materno', 'nombre', 'sexo', 'semestre', 'carrera', 'asunto', 'descripcion', 'fecha', 'estado', 'comentarios']
         widgets = {
             'fecha': forms.DateInput(attrs={'type': 'date'}),
             'descripcion': forms.Textarea,

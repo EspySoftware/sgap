@@ -75,6 +75,14 @@
   />
   <p>Descripcion: {{ form.descripcion.value }}</p>
 
+  <input
+    type="hidden"
+    id="{{ field.id_for_label }}"
+    name="comentarios"
+    value="{{ form.comentarios.value }}"
+  />
+  <p>Comentarios: {{ form.comentarios.value }}</p>
+
 {% if form.estado.value == 'Declinada' %}
     <input
         type="hidden"
@@ -115,6 +123,7 @@
     {% else %}
         <p>Fecha: {{ form.fecha }}</p>
         <p>Estado: {{ form.estado }}</p>
+        <p>Comentarios: {{ form.comentarios }}</p>
         <button type="submit" name="action" value="save">Guardar</button>
     {% endif %} 
 {% endif %}
