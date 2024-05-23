@@ -46,8 +46,8 @@
                     </li>
                     <li>
                         <a
-                            href="/citas_pendientes"
-                            class="nav-link {% if request.path == '/citas/' %}active{% endif %} py-3 border-bottom rounded-0"
+                            href="/citas_pendientes/"
+                            class="nav-link {% if request.path == '/citas/' %}active{% endif %}{% if request.path == '/citas_confirmadas/' %}active{% endif %}{% if request.path == '/citas_pendientes/' %}active{% endif %} py-3 border-bottom rounded-0"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right"
                             aria-label="Citas"
