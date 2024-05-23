@@ -141,8 +141,10 @@ def signin(request):
             })
         else:
             login(request, user)
-            return redirect('citas_pendientes')
-
+            if user.is_staff:
+                return redirect('citas_pendientes')
+            else:
+                return redirect('citas')
 
 def crear_cita(request):
     if request.method == "POST":
