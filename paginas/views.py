@@ -161,6 +161,9 @@ def crear_cita(request):
         form.fields['estado'].initial = 'Pendiente'
         form.fields['estado'].widget = forms.HiddenInput()
         form.fields['estado'].label = ''
+        form.fields['comentarios'].initial = 'No hay comentarios'
+        form.fields['comentarios'].widget = forms.HiddenInput()
+        form.fields['comentarios'].label = ''
 
     return render(request, 'crear_cita.html', {
         'form': form,

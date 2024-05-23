@@ -73,8 +73,8 @@ class Cita(models.Model):
     ]
     
     matricula = models.CharField(max_length=8)
-    ap_paterno = models.CharField(max_length=20)
-    ap_materno = models.CharField(max_length=20)
+    apellido_paterno = models.CharField(max_length=20)
+    apellido_materno = models.CharField(max_length=20)
     nombre = models.CharField(max_length=40)
     descripcion = models.TextField(max_length = 200)
     semestre = models.CharField(max_length = 2)
