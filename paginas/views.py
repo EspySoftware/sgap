@@ -7,6 +7,7 @@ from .forms import FormularioCita, FormularioHorario
 from .models import Cita, Horario
 from datetime import datetime, timedelta, time
 from django.http import JsonResponse
+from django import forms
 
 # Create your views here.
 
@@ -138,23 +139,27 @@ def signin(request):
 
 
 def crear_cita(request):
-    if request.method == "GET":
-        return render(request, 'crear_cita.html', {
-            'form': FormularioCita
-        })
-    else:
-        try:
-            form = FormularioCita(request.POST)
+    if request.method == "POST":
+        form = FormularioCita(request.POST)
+        if form.is_valid():
             nueva_cita = form.save(commit=False)
             nueva_cita.user = request.user
             nueva_cita.estado = 'Pendiente'
             nueva_cita.save()
-            return redirect('citas')
-        except ValueError:
-            return render(request, 'crear_cita.html', {
-                'form': FormularioCita,
-                'error': 'Por favor, verifica los datos ingresados'
-            })
+            return redirect('citas_pendientes')
+    else:
+        form = FormularioCita()
+
+    # Si el usuario no es un orientador, no puede cambiar el estado de la cita
+    if not request.user.is_staff:
+        form.fields['estado'].initial = 'Pendiente'
+        form.fields['estado'].widget = forms.HiddenInput()
+        form.fields['estado'].label = ''
+
+    return render(request, 'crear_cita.html', {
+        'form': form,
+        'error': 'Por favor, verifica los datos ingresados' if form.errors else None
+    })
 
 
 def generar_horario():
