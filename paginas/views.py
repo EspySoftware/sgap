@@ -8,6 +8,9 @@ from .models import Cita, Horario
 from datetime import datetime, timedelta, time
 from django.http import JsonResponse
 from django import forms
+from django.utils import timezone
+from datetime import datetime, timedelta, time, date
+
 
 # Create your views here.
 
@@ -175,7 +178,7 @@ def crear_cita(request):
 
 def generar_horario():
     dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
-    horas = [time(h, 0) for h in range(7, 17)]
+    horas = [time(h, 0) for h in range(7, 19)]
     
     ident = 1
     horario = {}
@@ -251,3 +254,29 @@ def actualizar_horario(request, pk):
         horario.save()
         return JsonResponse({'status': 'ok', 'estado': horario.get_estado_display()})
     return JsonResponse({'status': 'fail'})
+
+def create_horarios():
+    # Define the start and end times
+    start_time = time(7, 0)
+    end_time = time(19, 0)
+
+    # Calculate the number of hours between start and end times
+    hours = int((datetime.combine(date.today(), end_time) - datetime.combine(date.today(), start_time)).total_seconds() / 3600)
+
+    # Find the next Monday
+    today = date.today()
+    next_monday = today + timedelta(days=(7 - today.weekday() or 7))
+
+    # Create a schedule for each day from Monday to Friday
+    for day in range(5):  # 0 is Monday, 4 is Friday
+        for i in range(hours):
+            # Calculate the start and end times for this schedule
+            inicio = timezone.now().replace(hour=start_time.hour + i, minute=0, second=0, microsecond=0) + timedelta(days=day)
+            inicio = inicio.replace(year=next_monday.year, month=next_monday.month, day=next_monday.day + day)
+            fin = inicio + timedelta(hours=1)
+            estado = 'disponible'
+
+            # Create the schedule
+            Horario.objects.create(inicio=inicio, fin=fin, estado=estado)
+
+    print(f'{5 * hours} horarios creados.')
