@@ -140,7 +140,7 @@ def signin(request):
             })
         else:
             login(request, user)
-            return redirect('citas')
+            return redirect('citas_pendientes')
 
 
 def crear_cita(request):
