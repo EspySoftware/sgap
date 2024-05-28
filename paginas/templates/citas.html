@@ -4,13 +4,11 @@
 <a href="/citas_confirmadas" class="btn btn-primary">Citas confirmadas</a>
 <a href="/citas_pendientes" class="btn btn-warning">Citas pendientes</a>
 
-
 <table class="table table-bordered">
   <thead>
     <tr>
+      <th scope="col">Fecha</th>
       <th scope="col">Matricula</th>
-      <th scope="col">Apellido Paterno</th>
-      <th scope="col">Apellido Materno</th>
       <th scope="col">Nombre</th>
       <th scope="col">Asunto</th>
       <th scope="col">Descripcion</th>
@@ -26,10 +24,11 @@
   <tbody>
     {% for cita in citas %}
     <tr>
+      <td>{{ cita.fecha }}</td>
       <td>{{ cita.matricula }}</td>
-      <td>{{ cita.apellido_paterno }}</td>
-      <td>{{ cita.apellido_materno }}</td>
-      <td>{{ cita.nombre }}</td>
+      <td>
+        {{ cita.nombre }} {{cita.apellido_paterno}} {{cita.apellido_materno}}
+      </td>
       <td>{{ cita.asunto }}</td>
       <td>{{ cita.descripcion }}</td>
       <td>{{ cita.comentarios }}</td>
