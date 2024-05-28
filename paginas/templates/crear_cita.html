@@ -1,39 +1,32 @@
-{% extends 'base.html' %} {% load static %} {% load widget_tweaks %} {% block
-content %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% load widget_tweaks %} 
+
+{% block content %}
 <div class="container pt-3 pb-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
       <!-- Aviso de privacidad -->
       <div class="alert alert-info">
         <h4 style="text-align: center">
-          Registro sobre asistencia al Área de Orientación Educativa y
-          Psicopedagógica.
+          Registro sobre asistencia al Área de Orientación Educativa y Psicopedagógica.
         </h4>
         <p>Sobre la privacidad:</p>
         <p>
-          La Universidad Autónoma de Baja California (UABC) hace de su
-          conocimiento las finalidades para las cuales son recabados y tratados
-          los datos personales del alumnado, egresados y de los aspirantes a
-          ingresar a esta Universidad:
+          La Universidad Autónoma de Baja California (UABC) hace de su conocimiento las finalidades para las cuales son recabados y tratados los datos personales del alumnado, egresados y de los aspirantes a ingresar a esta Universidad:
         </p>
         <ul>
           <li>
-            Prestar los servicios administrativos propios de la naturaleza de la
-            UABC.
+            Prestar los servicios administrativos propios de la naturaleza de la UABC.
           </li>
           <li>
-            Para sustanciar obligaciones de tipo académicas previstas en la
-            normatividad universitaria vigente.
+            Para sustanciar obligaciones de tipo académicas previstas en la normatividad universitaria vigente.
           </li>
         </ul>
         <p>
-          De igual manera le informamos que usted podrá consultar el Aviso de
-          Privacidad Académico integral en la dirección electrónica:
-          <a href="http://www.uabc.mx">www.uabc.mx</a> y en el Portal de
-          Obligaciones de Transparencia:
-          <a href="http://www.uabc.mx/transparencia"
-            >www.uabc.mx/transparencia</a
-          >
+          De igual manera le informamos que usted podrá consultar el Aviso de Privacidad Académico integral en la dirección electrónica:
+          <a href="http://www.uabc.mx">www.uabc.mx</a> y en el Portal de Obligaciones de Transparencia:
+          <a href="http://www.uabc.mx/transparencia">www.uabc.mx/transparencia</a>
         </p>
         <img
           src="{% static 'images/aviso.jpg' %}"
@@ -44,33 +37,39 @@ content %}
 
       <!-- Formulario -->
       <form action="" method="POST" class="p-5 border rounded">
-        {% csrf_token %} {% for field in form %} {% if field.widget.input_type
-        != 'hidden' %}
-        <div class="form-group mb-4">
-          <label for="{{ field.id_for_label }}" class="form-label"
-            >{{ field.label }}</label
-          >
-          {{ field|add_class:"form-control" }} {% if field.help_text %}
-          <small class="form-text text-muted">{{ field.help_text }}</small>
-          {% endif %} {% if field.errors %}
-          <div class="invalid-feedback">{{ field.errors|striptags }}</div>
-          {% endif %}
-        </div>
-        {% else %} {{ field }} {% endif %} {% endfor %}
+        {% csrf_token %} 
+        {% for field in form %} 
+          {% if field.widget.input_type != 'hidden' %}
+            <div class="form-group mb-4">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field|add_class:"form-control" }} 
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %} 
+              {% if field.errors %}
+                <div class="invalid-feedback">{{ field.errors|striptags }}</div>
+              {% endif %}
+            </div>
+          {% else %} 
+            {{ field }} 
+          {% endif %} 
+        {% endfor %}
 
         <div class="form-check mb-4">
           <input
-            class="form-check-input"
+            class="form-check-input {% if error %}is-invalid{% endif %}"
             type="checkbox"
             value=""
             id="consentCheckbox"
+            name="consentCheckbox"
             required
           />
           <label class="form-check-label" for="consentCheckbox">
-            He leído y consiento que mis datos personales sensibles sean
-            tratados conforme a los términos y condiciones del presente aviso de
-            privacidad.
+            He leído y consiento que mis datos personales sensibles sean tratados conforme a los términos y condiciones del presente aviso de privacidad.
           </label>
+          {% if error %}
+            <div class="invalid-feedback">{{ error }}</div>
+          {% endif %}
         </div>
 
         <!-- Agendar -->
@@ -80,7 +79,7 @@ content %}
       </form>
 
       {% if error %}
-      <div class="alert alert-danger mt-3" role="alert">{{ error }}</div>
+        <div class="alert alert-danger mt-3" role="alert">{{ error }}</div>
       {% endif %}
     </div>
   </div>
