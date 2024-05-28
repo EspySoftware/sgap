@@ -2,44 +2,44 @@
 <h1 class="text-center mt-3 mb-3">Citas confirmada</h1>
 <a href="/citas" class="btn btn-success">Todas las citas</a>
 <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th scope="col">Matricula</th>
-        <th scope="col">Apellido Paterno</th>
-        <th scope="col">Apellido Materno</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Asunto</th>
-        <th scope="col">Descripcion</th>
-        <th scope="col">Comentarios</th>
-        <th scope="col">Estado</th>
-        {% if user.username == 'espy' or user == 'orientador' %}
-        <th scope="col">Acciones</th>
-        {% else %}
-        <th scope="col">Detalle</th>
-        {% endif %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for cita in citas %}
-      <tr>
-        <td>{{ cita.matricula }}</td>
-        <td>{{ cita.apellido_paterno }}</td>
-        <td>{{ cita.apellido_materno }}</td>
-        <td>{{ cita.nombre }}</td>
-        <td>{{ cita.asunto }}</td>
-        <td>{{ cita.descripcion }}</td>
-        <td>{{ cita.comentarios }}</td>
-        <td>{{ cita.estado }}</td>
-        {% if user.username == 'espy' or user == 'orientador' %}
-        <td>
-          <a href="/citas/{{ cita.id }}" class="btn btn-success">Editar </a>
-        </td>
-        {% else %}
-        <td>
-          <a href="/citas/{{ cita.id }}" class="btn btn-success">Ver </a>
-        </td>
-        {% endif %} {% endfor %}
-      </tr>
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th scope="col">Fecha</th>
+      <th scope="col">Matricula</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Asunto</th>
+      <th scope="col">Descripcion</th>
+      <th scope="col">Comentarios</th>
+      <th scope="col">Estado</th>
+      {% if user.username == 'espy' or user == 'orientador' %}
+      <th scope="col">Acciones</th>
+      {% else %}
+      <th scope="col">Detalle</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for cita in citas %}
+    <tr>
+      <td>{{ cita.fecha }}</td>
+      <td>{{ cita.matricula }}</td>
+      <td>
+        {{ cita.nombre }} {{cita.apellido_paterno}} {{cita.apellido_materno}}
+      </td>
+      <td>{{ cita.asunto }}</td>
+      <td>{{ cita.descripcion }}</td>
+      <td>{{ cita.comentarios }}</td>
+      <td>{{ cita.estado }}</td>
+      {% if user.username == 'espy' or user == 'orientador' %}
+      <td>
+        <a href="/citas/{{ cita.id }}" class="btn btn-success">Editar </a>
+      </td>
+      {% else %}
+      <td>
+        <a href="/citas/{{ cita.id }}" class="btn btn-success">Ver </a>
+      </td>
+      {% endif %} {% endfor %}
+    </tr>
+  </tbody>
+</table>
 {% endblock %}
