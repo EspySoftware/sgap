@@ -20,7 +20,7 @@ class FormularioCita(ModelForm):
 
     class Meta:
         model = Cita
-        fields = ['matricula', 'apellido_paterno', 'apellido_materno', 'nombre', 'sexo', 'semestre', 'carrera', 'asunto', 'descripcion', 'fecha', 'estado', 'comentarios']
+        fields = ['matricula', 'apellido_paterno', 'apellido_materno', 'nombre', 'sexo', 'semestre', 'carrera', 'asunto', 'descripcion', 'fecha', 'estado', 'comentarios_orientador', 'comentarios_usuario']
         widgets = {
             'descripcion': forms.Textarea,
             'sexo': forms.Select(choices=Cita.GENERO),

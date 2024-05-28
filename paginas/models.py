@@ -74,7 +74,7 @@ class Cita(models.Model):
         (OCTAVO, '8'),
         (NOVENO, '9'),
     ]
-
+    
     matricula = models.CharField(max_length=8)
     apellido_paterno = models.CharField(max_length=20)
     apellido_materno = models.CharField(max_length=20)
@@ -87,10 +87,16 @@ class Cita(models.Model):
         default=PRIMERO
     )
 
-    comentarios = models.TextField(
+    comentarios_orientador = models.TextField(
         max_length=200,
         default="No hay comentarios."
     )
+    
+    comentarios_usuario = models.TextField(
+        max_length=200,
+        default="No hay comentarios."
+    )
+
 
     sexo = models.CharField(
         max_length=20,

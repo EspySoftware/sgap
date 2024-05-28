@@ -9,9 +9,10 @@
       <th scope="col">Nombre</th>
       <th scope="col">Asunto</th>
       <th scope="col">Descripcion</th>
-      <th scope="col">Comentarios</th>
       <th scope="col">Estado</th>
-      {% if user.username == 'espy' or user == 'orientador' %}
+      <th scope="col">Comentarios orientador</th>
+      <th scope="col">Comentarios usuario</th>
+      {% if user.is_staff %}
       <th scope="col">Acciones</th>
       {% else %}
       <th scope="col">Detalle</th>
@@ -28,9 +29,10 @@
       </td>
       <td>{{ cita.asunto }}</td>
       <td>{{ cita.descripcion }}</td>
-      <td>{{ cita.comentarios }}</td>
       <td>{{ cita.estado }}</td>
-      {% if user.username == 'espy' or user == 'orientador' %}
+      <td>{{ cita.comentarios_usuario }}</td>
+      <td>{{ cita.comentarios_orientador }}</td>
+      {% if user.is_staff %}
       <td>
         <a href="/citas/{{ cita.id }}" class="btn btn-success">Editar </a>
       </td>
@@ -38,6 +40,7 @@
       <td>
         <a href="/citas/{{ cita.id }}" class="btn btn-success">Ver </a>
       </td>
+      
       {% endif %} {% endfor %}
     </tr>
   </tbody>

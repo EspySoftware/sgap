@@ -1,5 +1,8 @@
-{% extends 'base.html' %} {% block content %}
-<h1>{{cita.titulo}}</h1>
+{% extends 'base.html' %} 
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<!-- <h1>{{cita.titulo}}</h1>
 {{error}}
 <form method="POST">
   {% csrf_token %}
@@ -134,5 +137,46 @@
   <p>Comentarios: {{ form.comentarios }}</p>
   <button type="submit" name="action" value="save">Guardar</button>
   {% endif %} {% endif %}
+</form> -->
+
+<form action="" method="POST" class="p-5 border rounded">
+  {% csrf_token %}
+  {% for field in form %}
+  {% if field.widget.input_type != 'hidden' %}
+  <div class="form-group mb-4">
+    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+    {{ field|add_class:"form-control" }}
+    {% if field.help_text %}
+    <small class="form-text text-muted">{{ field.help_text }}</small>
+    {% endif %}
+    {% if field.errors %}
+    <div class="invalid-feedback">
+      {{ field.errors|striptags }}
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  {{ field }}
+  {% endif %}
+  {% endfor %}
+
+  <div class="form-check mb-4">
+    <input class="form-check-input" type="checkbox" value="" id="consentCheckbox" required>
+    <label class="form-check-label" for="consentCheckbox">
+      He leído y consiento que mis datos personales sensibles sean tratados conforme a los términos y condiciones del presente aviso de privacidad.
+    </label>
+  </div>
+
+  <!-- Agendar -->
+  <div class="form-group text-center">
+    <button class="btn btn-primary btn-lg">Guardar</button>
+  </div>
 </form>
+
+{% if error %}
+<div class="alert alert-danger mt-3" role="alert">{{ error }}</div>
+{% endif %}
+</div>
+</div>
+</div>
 {% endblock %}

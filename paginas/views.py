@@ -166,10 +166,13 @@ def crear_cita(request):
         form.fields['estado'].initial = 'Pendiente'
         form.fields['estado'].widget = forms.HiddenInput()
         form.fields['estado'].label = ''
-        form.fields['comentarios'].initial = 'No hay comentarios'
-        form.fields['comentarios'].widget = forms.HiddenInput()
-        form.fields['comentarios'].label = ''
-
+        form.fields['comentarios_orientador'].initial = 'No hay comentarios'
+        form.fields['comentarios_orientador'].widget = forms.HiddenInput()
+        form.fields['comentarios_orientador'].label = ''
+    else:
+        form.fields['comentarios_usuario'].initial = 'No hay comentarios'
+        form.fields['comentarios_usuario'].widget = forms.HiddenInput()
+        form.fields['comentarios_usuario'].label = ''
     return render(request, 'crear_cita.html', {
         'form': form,
         'error': 'Por favor, verifica los datos ingresados' if form.errors else None
