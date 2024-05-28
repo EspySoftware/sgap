@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils import timezone
+from django.utils.dateformat import format
 
 class Cita(models.Model):
     PENDIENTE = 'Pendiente'
@@ -135,4 +136,6 @@ class Horario(models.Model):
         max_length=20, choices=ESTADO_CHOICES, default='disponible')
 
     def __str__(self):
-        return f"{self.inicio} - {self.fin}: {self.get_estado_display()}"
+        inicio_local = timezone.localtime(self.inicio)
+        fin_local = timezone.localtime(self.fin)
+        return format(inicio_local, 'l d') + " de " + format(inicio_local, 'F: H:i') + " - " + format(fin_local, 'H:i')
