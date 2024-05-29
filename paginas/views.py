@@ -47,7 +47,8 @@ def citas(request):
     if request.user.username == 'espy':
         citas = Cita.objects.all().order_by('-fecha')  # VISTA DEL ORIENTADOR
     else:
-        citas = Cita.objects.filter(user=request.user).order_by('-fecha')  # VISTA DEL USUARIO
+        citas = Cita.objects.filter(user=request.user).order_by(
+            '-fecha')  # VISTA DEL USUARIO
     return render(request, 'citas.html', {
         'citas': citas
     })
@@ -64,9 +65,7 @@ def detalle_cita(request, id_cita):
                 cita = get_object_or_404(Cita, pk=id_cita)
                 form = FormularioCita(request.POST, instance=cita)
                 action = request.POST.get('action')
-                if action == 'cancel':
-                    cita.estado = 'Declinada'
-                elif action == 'save':
+                if action == 'save':
                     form.save()
                 cita.save()
                 return redirect('citas')
@@ -87,9 +86,10 @@ def detalle_cita(request, id_cita):
                 form = FormularioCita(request.POST, instance=cita)
                 action = request.POST.get('action')
                 if action == 'cancel':
-                    if request.POST.get('comentarios_usuario') != 'No hay comentarios.':
+                    if request.POST.get('comentarios_usuario') != 'No hay comentarios.' or request.POST.get('comentarios_usuario') != '':
                         cita.estado = 'Declinada'
-                        form.save() # Este es el puto error
+                        cita.save
+                        form.save()
                     else:
                         return render(request, 'detalle_cita.html', {
                             'cita': cita,
