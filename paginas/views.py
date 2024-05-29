@@ -209,7 +209,7 @@ def generar_horario():
 def horario(request):
     horario_estructura = generar_horario()
     horarios = Horario.objects.all()
-    print(horarios)
+    # print(horarios)
 
     for horario in horarios:
         dia_semana = horario.inicio.strftime(

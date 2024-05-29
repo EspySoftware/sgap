@@ -152,7 +152,7 @@
                         success: function(response) {
                             if (response.status == 'ok') {
                                 // Cambiar color de celda según el estado
-                                $('td[data-id="' + id + '"]').removeClass('bg-success bg-danger bg-warning').addClass(estado == 'disponible' ? 'bg-success' : estado == 'no_disponible' ? 'bg-danger' : 'bg-warning');
+                                $('td[data-id="' + id + '"]').removeClass('disponible nodisponible agendado').addClass(estado == 'disponible' ? 'disponible' : estado == 'no_disponible' ? 'nodisponible' : 'agendado');
                             }
                         },
                         error: function() {
