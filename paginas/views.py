@@ -44,7 +44,7 @@ def signup(request):
 
 
 def citas(request):
-    if request.user.username == 'espy':
+    if request.user.is_staff:
         citas = Cita.objects.all().order_by('-fecha')  # VISTA DEL ORIENTADOR
     else:
         citas = Cita.objects.filter(user=request.user).order_by(
@@ -116,7 +116,7 @@ def detalle_cita(request, id_cita):
 
 
 def citas_confirmadas(request):
-    if request.user.username == 'espy':
+    if request.user.is_staff:
         citas = Cita.objects.filter(estado='Confirmada').order_by('-fecha')
     else:
         citas = Cita.objects.filter(
@@ -126,7 +126,7 @@ def citas_confirmadas(request):
 
 
 def citas_pendientes(request):
-    if request.user.username == 'espy':
+    if request.user.is_staff:
         citas = Cita.objects.filter(estado='Pendiente').order_by('solicitada')
     else:
         citas = Cita.objects.filter(
