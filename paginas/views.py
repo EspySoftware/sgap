@@ -163,7 +163,7 @@ def signin(request):
 
 def crear_cita(request):
     if request.method == "POST":
-        form = FormularioCita(request.POST)
+        form = FormularioCita(request.POST, user=request.user)
         if form.is_valid():
             nueva_cita = form.save(commit=False)
             nueva_cita.user = request.user
@@ -171,7 +171,7 @@ def crear_cita(request):
             nueva_cita.save()
             return redirect('citas_pendientes')
     else:
-        form = FormularioCita()
+        form = FormularioCita(user=request.user)
 
     # Si el usuario no es un orientador, no puede cambiar el estado de la cita
     if not request.user.is_staff:

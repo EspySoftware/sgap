@@ -2,10 +2,7 @@ from django.forms import ModelForm
 from .models import Cita, Horario
 from django import forms
 from .models import Cita
-
-# Este hack hace que el campo 'fecha' del formulario funcione y pueda convertir el objeto Horario a un string en formato ISO 8601
-# La verdad no sé cómo funciona pero funciona
-
+from django.utils import timezone
 
 class StringModelChoiceField(forms.ModelChoiceField):
     def to_python(self, value):
@@ -14,12 +11,23 @@ class StringModelChoiceField(forms.ModelChoiceField):
         # Convert the 'inicio' attribute to a string in ISO 8601 format
         return original_value.inicio.isoformat() if original_value else ''
 
-
 class FormularioCita(ModelForm):
     fecha = StringModelChoiceField(
-        queryset=Horario.objects.filter(estado="disponible"),
+        queryset=Horario.objects.none(),  # Inicialmente vacío
         to_field_name='inicio',
     )
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['fecha'].queryset = Horario.objects.filter(estado="disponible", inicio__gt=timezone.now())
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if self.user.is_staff:
+            self.fields['fecha'].queryset = Horario.objects.filter(estado="disponible")
+        else:
+            self.fields['fecha'].queryset = Horario.objects.filter(estado="disponible", inicio__gt=timezone.now())
 
     class Meta:
         model = Cita
@@ -32,7 +40,6 @@ class FormularioCita(ModelForm):
             'asunto': forms.Select(choices=Cita.ASUNTOS),
             'semestre': forms.Select(choices=Cita.SEMESTRES),
             'fecha': forms.DateTimeInput(format='%Y-%m-%d %H:%M:%S', attrs={'type': 'datetime-local'}),
-
         }
 
 
