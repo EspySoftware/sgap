@@ -63,7 +63,7 @@
           </div>
 
           <!-- Campos adicionales según el estado de la cita -->
-          {% if form.estado.value == 'Declinada' %}
+          {% if form.estado.value == 'Declinada' or form.estado.value == 'Confirmada' %}
             {{ form.comentarios_orientador.as_hidden }}
             <div class="form-group mb-4">
               <label>Comentarios orientador</label>
