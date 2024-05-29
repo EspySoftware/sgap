@@ -30,8 +30,8 @@
       <td>{{ cita.asunto }}</td>
       <td>{{ cita.descripcion }}</td>
       <td>{{ cita.estado }}</td>
-      <td>{{ cita.comentarios_usuario }}</td>
       <td>{{ cita.comentarios_orientador }}</td>
+      <td>{{ cita.comentarios_usuario }}</td>
       {% if user.is_staff %}
       <td>
         <a href="/citas/{{ cita.id }}" class="btn btn-success">Editar </a>

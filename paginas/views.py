@@ -54,7 +54,7 @@ def citas(request):
 
 
 def detalle_cita(request, id_cita):
-    if request.user.username == 'espy':
+    if request.user.is_staff:
         if request.method == "GET":
             cita = get_object_or_404(Cita, pk=id_cita)
             form = FormularioCita(instance=cita)
@@ -66,11 +66,9 @@ def detalle_cita(request, id_cita):
                 action = request.POST.get('action')
                 if action == 'cancel':
                     cita.estado = 'Declinada'
-                if action == 'save':
-                    cita.save()
+                elif action == 'save':
                     form.save()
-                else:
-                    cita.save()
+                cita.save()
                 return redirect('citas')
             except ValueError:
                 return render(request, 'detalle_cita.html', {
@@ -89,12 +87,18 @@ def detalle_cita(request, id_cita):
                 form = FormularioCita(request.POST, instance=cita)
                 action = request.POST.get('action')
                 if action == 'cancel':
-                    cita.estado = 'Declinada'
-                if action == 'save':
-                    cita.save()
+                    if request.POST.get('comentarios_usuario') != 'No hay comentarios.':
+                        cita.estado = 'Declinada'
+                        form.save() # Este es el puto error
+                    else:
+                        return render(request, 'detalle_cita.html', {
+                            'cita': cita,
+                            'form': form,
+                            'error': 'Añade un comentario para cancelar la cita.'
+                        })
+                elif action == 'save':
                     form.save()
-                else:
-                    cita.save()
+                cita.save()
                 return redirect('citas')
             except ValueError:
                 return render(request, 'detalle_cita.html', {
@@ -149,6 +153,7 @@ def signin(request):
             else:
                 return redirect('citas')
 
+
 def crear_cita(request):
     if request.method == "POST":
         form = FormularioCita(request.POST)
@@ -182,7 +187,7 @@ def crear_cita(request):
 def generar_horario():
     dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
     horas = [time(h, 0) for h in range(7, 19)]
-    
+
     ident = 1
     horario = {}
     for dia in dias:
@@ -190,7 +195,7 @@ def generar_horario():
         for hora in horas:
             horario[dia][hora] = {'id': ident, 'estado': "Disponible"}
             ident += 1
-            
+
     return horario
 
 
@@ -215,7 +220,6 @@ def horario(request):
                 'id': horario.id,
                 'estado': horario.estado
             }
-
 
     print(horario_estructura)
     return render(request, 'horario.html', {'horario_estructura': horario_estructura})
@@ -243,9 +247,10 @@ def crear_horario(request):
 
         inicio = datetime.combine(fecha.date(), hora)
         fin = inicio + timedelta(hours=1)
-        
-        nuevo_horario = Horario.objects.create(inicio=inicio, fin=fin, estado=estado)
-        
+
+        nuevo_horario = Horario.objects.create(
+            inicio=inicio, fin=fin, estado=estado)
+
         return JsonResponse({'status': 'ok', 'id': nuevo_horario.id, 'estado': nuevo_horario.estado})
     return JsonResponse({'status': 'fail'})
 
@@ -261,13 +266,15 @@ def actualizar_horario(request, pk):
         return JsonResponse({'status': 'ok', 'estado': horario.get_estado_display()})
     return JsonResponse({'status': 'fail'})
 
+
 def create_horarios():
     # Define the start and end times
     start_time = time(7, 0)
     end_time = time(19, 0)
 
     # Calculate the number of hours between start and end times
-    hours = int((datetime.combine(date.today(), end_time) - datetime.combine(date.today(), start_time)).total_seconds() / 3600)
+    hours = int((datetime.combine(date.today(), end_time) -
+                datetime.combine(date.today(), start_time)).total_seconds() / 3600)
 
     # Find the next Monday
     today = date.today()
@@ -277,8 +284,10 @@ def create_horarios():
     for day in range(5):  # 0 is Monday, 4 is Friday
         for i in range(hours):
             # Calculate the start and end times for this schedule
-            inicio = timezone.now().replace(hour=start_time.hour + i, minute=0, second=0, microsecond=0) + timedelta(days=day)
-            inicio = inicio.replace(year=next_monday.year, month=next_monday.month, day=next_monday.day + day)
+            inicio = timezone.now().replace(hour=start_time.hour + i, minute=0,
+                                            second=0, microsecond=0) + timedelta(days=day)
+            inicio = inicio.replace(
+                year=next_monday.year, month=next_monday.month, day=next_monday.day + day)
             fin = inicio + timedelta(hours=1)
             estado = 'disponible'
 

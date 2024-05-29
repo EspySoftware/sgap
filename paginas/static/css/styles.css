@@ -31,3 +31,9 @@ body .btn-primary:active {
 .nav-link:hover {
     color: rgba(255, 255, 255, 0.7) !important;
 }
+
+.readonly-field {
+    background-color: #f8f9fa;  /* Color de fondo gris claro para indicar que está deshabilitado */
+    pointer-events: none;  /* Desactiva todos los eventos del ratón */
+    opacity: 0.7;  /* Hace que el campo se vea ligeramente deshabilitado */
+}
