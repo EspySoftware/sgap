@@ -1,158 +1,91 @@
-{% extends 'base.html' %} {% block content %}
-{{error}}
-<h1>{{cita.titulo}}</h1>
-<form method="POST">
-  {% csrf_token %}
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="matricula"
-    value="{{ form.matricula.value }}"
-  />
-  <p>Matricula: {{ form.matricula.value }}</p>
+{% extends 'base.html' %}
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="apellido_paterno"
-    value="{{ form.apellido_paterno.value }}"
-  />
-  <p>Apellido Paterno: {{ form.apellido_paterno.value }}</p>
+{% block content %}
+  <!-- Mensaje de error -->
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="apellido_materno"
-    value="{{ form.apellido_materno.value }}"
-  />
-  <p>Apellido Materno: {{ form.apellido_materno.value }}</p>
+  <h1>{{ cita.titulo }}</h1>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="nombre"
-    value="{{ form.nombre.value }}"
-  />
-  <p>Nombre: {{ form.nombre.value }}</p>
+  <!-- Formulario para manejar la cita -->
+  <form method="POST">
+    {% csrf_token %}
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="semestre"
-    value="{{ form.semestre.value }}"
-  />
-  <p>Semestre: {{ form.semestre.value }}</p>
+    <!-- Información del usuario (campos ocultos) -->
+    {{ form.matricula.as_hidden }}
+    <p>Matricula: {{ form.matricula.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="sexo"
-    value="{{ form.sexo.value }}"
-  />
-  <p>Sexo: {{ form.sexo.value }}</p>
+    {{ form.apellido_paterno.as_hidden }}
+    <p>Apellido Paterno: {{ form.apellido_paterno.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="carrera"
-    value="{{ form.carrera.value }}"
-  />
-  <p>Carrera: {{ form.carrera.value }}</p>
+    {{ form.apellido_materno.as_hidden }}
+    <p>Apellido Materno: {{ form.apellido_materno.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="asunto"
-    value="{{ form.asunto.value }}"
-  />
-  <p>Asunto: {{ form.asunto.value }}</p>
+    {{ form.nombre.as_hidden }}
+    <p>Nombre: {{ form.nombre.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="descripcion"
-    value="{{ form.descripcion.value }}"
-  />
-  <p>Descripcion: {{ form.descripcion.value }}</p>
+    {{ form.semestre.as_hidden }}
+    <p>Semestre: {{ form.semestre.value }}</p>
 
-  {% if form.estado.value == 'Declinada' %}
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="comentarios_orientador"
-    value="{{ form.comentarios_orientador.value }}"
-  />
-  <p>Comentarios orientador: {{ form.comentarios_orientador.value }}</p>
+    {{ form.sexo.as_hidden }}
+    <p>Sexo: {{ form.sexo.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="comentarios_usuario"
-    value="{{ form.comentarios_usuario.value }}"
-  />
-  <p>Comentarios usuario: {{ form.comentarios_usuario.value }}</p>
+    {{ form.carrera.as_hidden }}
+    <p>Carrera: {{ form.carrera.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="fecha"
-    value="{{ form.fecha.value }}"
-  />
-  <p>Fecha: {{ form.fecha.value }}</p>
+    {{ form.asunto.as_hidden }}
+    <p>Asunto: {{ form.asunto.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="estado"
-    value="{{ form.estado.value }}"
-  />
-  <p>Estado: {{ form.estado.value }}</p>
+    {{ form.descripcion.as_hidden }}
+    <p>Descripcion: {{ form.descripcion.value }}</p>
 
-  <button type="submit" name="action" value="salir">Salir</button>
-  {% else %} {% if not user.is_staff %}
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="fecha"
-    value="{{ form.fecha.value }}"
-  />
-  <p>Fecha: {{ form.fecha.value }}</p>
+    <!-- Campos adicionales según el estado de la cita -->
+    {% if form.estado.value == 'Declinada' %}
+      {{ form.comentarios_orientador.as_hidden }}
+      <p>Comentarios orientador: {{ form.comentarios_orientador.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="estado"
-    value="{{ form.estado.value }}"
-  />
-  <p>Estado: {{ form.estado.value }}</p>
+      {{ form.comentarios_usuario.as_hidden }}
+      <p>Comentarios usuario: {{ form.comentarios_usuario.value }}</p>
 
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="comentarios_orientador"
-    value="{{ form.comentarios_orientador.value }}"
-  />
-  <p>Comentarios orientador: {{ form.comentarios_orientador.value }}</p>
+      {{ form.fecha.as_hidden }}
+      <p>Fecha: {{ form.fecha.value|date:"Y-m-d H:i:s" }}</p>
 
-  <p>Comentarios usuario: {{ form.comentarios_usuario}}</p>
+      {{ form.estado.as_hidden }}
+      <p>Estado: {{ form.estado.value }}</p>
 
-  <button type="submit" name="action" value="cancel">Declinar cita</button>
-  <button type="submit" name="action" value="save">Guardar</button>
-  <button type="submit" name="action" value="salir">Salir</button>
-  {% else %}
+      <button type="submit" name="action" value="salir">Salir</button>
 
-  <p>Fecha: {{ form.fecha }}</p>
-  <p>Estado: {{ form.estado }}</p>
-  <p>Comentarios orientador: {{ form.comentarios_orientador }}</p>
-  <input
-    type="hidden"
-    id="{{ field.id_for_label }}"
-    name="comentarios_usuario"
-    value="{{ form.comentarios_usuario.value }}"
-  />
-  <p>Comentarios usuario: {{ form.comentarios_usuario.value }}</p>
-  <button type="submit" name="action" value="save">Guardar</button>
-  <button type="submit" name="action" value="salir">Salir</button>
-  {% endif %} {% endif %}
-</form>
- {% endblock %}
+    {% else %}
+      <!-- Vista para usuarios que no son staff -->
+      {% if not request.user.is_staff %}
+        {{ form.fecha.as_hidden }}
+        <p>Fecha: {{ form.fecha.value|date:"Y-m-d H:i:s" }}</p>
+
+        {{ form.estado.as_hidden }}
+        <p>Estado: {{ form.estado.value }}</p>
+
+        {{ form.comentarios_orientador.as_hidden }}
+        <p>Comentarios orientador: {{ form.comentarios_orientador.value }}</p>
+
+        <p>Comentarios usuario: {{ form.comentarios_usuario}}</p>
+        
+        <button type="submit" name="action" value="cancel">Declinar cita</button>
+        <button type="submit" name="action" value="save">Guardar</button>
+        <button type="submit" name="action" value="salir">Salir</button>
+
+      <!-- Vista para usuarios que son staff -->
+      {% else %}
+        <p>Fecha: {{ form.fecha }}</p>
+        <p>Estado: {{ form.estado }}</p>
+        <p>Comentarios orientador: {{ form.comentarios_orientador }}</p>
+
+        {{ form.comentarios_usuario.as_hidden }}
+        <p>Comentarios usuario: {{ form.comentarios_usuario.value }}</p>
+
+        <button type="submit" name="action" value="save">Guardar</button>
+        <button type="submit" name="action" value="salir">Salir</button>
+      {% endif %}
+    {% endif %}
+  </form>
+{% endblock %}
