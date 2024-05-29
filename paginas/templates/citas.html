@@ -1,52 +1,58 @@
 {% extends 'base.html' %} {% block content %}
 
 <h1 class="text-center mt-3 mb-3">Citas</h1>
-<a href="/citas_confirmadas" class="btn btn-primary">Citas confirmadas</a>
-<a href="/citas_pendientes" class="btn btn-warning">Citas pendientes</a>
+
+<div class="d-flex mb-3 gap-2">
+    <a href="/citas_confirmadas" class="btn btn-success">Citas confirmadas</a>
+    <a href="/citas_pendientes" class="btn btn-success">Citas pendientes</a>
+</div>
 
 <table class="table table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">Fecha</th>
-      <th scope="col">Matricula</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Asunto</th>
-      <th scope="col">Descripcion</th>
-      <th scope="col">Estado</th>
-      <th scope="col">Comentarios orientador</th>
-      <th scope="col">Comentarios usuario</th>
-      {% if user.is_staff %}
-      <th scope="col">Acciones</th>
-      {% else %}
-      <th scope="col">Detalle</th>
-      {% endif %}
-    </tr>
-  </thead>
-  <tbody>
-    {% for cita in citas %}
-    <tr>
-      <td>{{ cita.fecha }}</td>
-      <td>{{ cita.matricula }}</td>
-      <td>
-        {{ cita.nombre }} {{cita.apellido_paterno}} {{cita.apellido_materno}}
-      </td>
-      <td>{{ cita.asunto }}</td>
-      <td>{{ cita.descripcion }}</td>
-      <td>{{ cita.estado }}</td>
-      <td>{{ cita.comentarios_orientador }}</td>
-      <td>{{ cita.comentarios_usuario }}</td>
-      {% if user.is_staff %}
-      <td>
-        <a href="/citas/{{ cita.id }}" class="btn btn-success">Editar </a>
-      </td>
-      {% else %}
-      <td>
-        <a href="/citas/{{ cita.id }}" class="btn btn-success">Ver </a>
-      </td>
-      
-      {% endif %} {% endfor %}
-    </tr>
-  </tbody>
+    <thead>
+        <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Matricula</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Asunto</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Comentarios orientador</th>
+            <th scope="col">Comentarios usuario</th>
+            {% if user.is_staff %}
+            <th scope="col">Acciones</th>
+            {% else %}
+            <th scope="col">Detalle</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for cita in citas %}
+        <tr>
+            <td>{{ cita.fecha }}</td>
+            <td>{{ cita.matricula }}</td>
+            <td>
+                {{ cita.nombre }} {{cita.apellido_paterno}}
+                {{cita.apellido_materno}}
+            </td>
+            <td>{{ cita.asunto }}</td>
+            <td>{{ cita.descripcion }}</td>
+            <td>{{ cita.estado }}</td>
+            <td>{{ cita.comentarios_orientador }}</td>
+            <td>{{ cita.comentarios_usuario }}</td>
+            {% if user.is_staff %}
+            <td>
+                <a href="/citas/{{ cita.id }}" class="btn btn-success"
+                    >Editar
+                </a>
+            </td>
+            {% else %}
+            <td>
+                <a href="/citas/{{ cita.id }}" class="btn btn-success">Ver </a>
+            </td>
+
+            {% endif %} {% endfor %}
+        </tr>
+    </tbody>
 </table>
 
 {% endblock %}
