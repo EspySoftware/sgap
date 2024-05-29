@@ -95,16 +95,6 @@ El personal administrativo puede definir y gestionar los horarios disponibles pa
 - `templates/`: Contiene las plantillas HTML de la aplicación.
 - `static/`: Contiene los archivos estáticos como CSS y JavaScript.
 
-## Contribuir
-
-Si deseas contribuir a este proyecto, por favor sigue los siguientes pasos:
-
-1. Haz un fork del proyecto.
-2. Crea una nueva rama (`git checkout -b feature/nueva-caracteristica`).
-3. Realiza tus cambios y confirma los mismos (`git commit -am 'Añadir nueva característica'`).
-4. Sube tus cambios a tu fork (`git push origin feature/nueva-caracteristica`).
-5. Abre un Pull Request.
-
 ## Autores
 
 ---
