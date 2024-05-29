@@ -105,9 +105,7 @@ Si deseas contribuir a este proyecto, por favor sigue los siguientes pasos:
 4. Sube tus cambios a tu fork (`git push origin feature/nueva-caracteristica`).
 5. Abre un Pull Request.
 
-## Licencia
-
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+## Autores
 
 ---
 
