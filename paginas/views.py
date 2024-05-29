@@ -68,6 +68,12 @@ def detalle_cita(request, id_cita):
                     cita.estado = 'Declinada'
                 elif action == 'save':
                     form.save()
+                    if cita.estado == 'Confirmada':
+                        horario = Horario.objects.filter(inicio__lte=cita.fecha).last()
+                        if horario is not None:
+                            print("debug " + str(horario))
+                            horario.estado = 'cita_agendada'
+                            horario.save()
                 cita.save()
                 return redirect('citas')
             except ValueError:
@@ -99,7 +105,7 @@ def detalle_cita(request, id_cita):
                 elif action == 'save':
                     form.save()
                 cita.save()
-                return redirect('citas')
+                return redirect('citas_pendientes')
             except ValueError:
                 return render(request, 'detalle_cita.html', {
                     'cita': cita,
