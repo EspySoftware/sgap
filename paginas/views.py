@@ -86,9 +86,10 @@ def detalle_cita(request, id_cita):
                 form = FormularioCita(request.POST, instance=cita)
                 action = request.POST.get('action')
                 if action == 'cancel':
-                    if request.POST.get('comentarios_usuario') != 'No hay comentarios.' or request.POST.get('comentarios_usuario') != '':
-                        cita.estado = 'Declinada'
-                        cita.save
+                    if request.POST.get('comentarios_usuario') != 'No hay comentarios.':
+                        request.POST._mutable = True
+                        request.POST['estado'] = 'Declinada'
+                        cita.save()
                         form.save()
                     else:
                         return render(request, 'detalle_cita.html', {
@@ -96,9 +97,10 @@ def detalle_cita(request, id_cita):
                             'form': form,
                             'error': 'Añade un comentario para cancelar la cita.'
                         })
-                elif action == 'save':
+                if action == 'save':
                     form.save()
                 cita.save()
+                print(cita.estado)
                 return redirect('citas')
             except ValueError:
                 return render(request, 'detalle_cita.html', {
