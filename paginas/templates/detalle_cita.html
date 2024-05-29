@@ -1,91 +1,156 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <!-- Mensaje de error -->
-  {% if error %}
-    <div class="error">{{ error }}</div>
-  {% endif %}
+{% load widget_tweaks %}
+<div class="container pt-3 pb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+        <!-- Mensaje de error -->
+        {% if error %}
+          <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endif %}
 
-  <h1>{{ cita.titulo }}</h1>
+        <h1 class="my-4">{{ cita.titulo }}</h1>
 
-  <!-- Formulario para manejar la cita -->
-  <form method="POST">
-    {% csrf_token %}
+        <!-- Formulario para manejar la cita -->
+        <form method="POST" class="mb-4 gap-2">
+          {% csrf_token %}
 
-    <!-- Información del usuario (campos ocultos) -->
-    {{ form.matricula.as_hidden }}
-    <p>Matricula: {{ form.matricula.value }}</p>
+          <!-- Información del usuario (campos ocultos) -->
+          {{ form.matricula.as_hidden }}
+          {{ form.apellido_paterno.as_hidden }}
+          {{ form.apellido_materno.as_hidden }}
+          {{ form.nombre.as_hidden }}
+          {{ form.semestre.as_hidden }}
+          {{ form.sexo.as_hidden }}
+          {{ form.carrera.as_hidden }}
+          {{ form.asunto.as_hidden }}
+          {{ form.descripcion.as_hidden }}
 
-    {{ form.apellido_paterno.as_hidden }}
-    <p>Apellido Paterno: {{ form.apellido_paterno.value }}</p>
+          <div class="form-group mb-4">
+            <label>Matricula</label>
+            <input type="text" class="form-control" value="{{ form.matricula.value }}" readonly>
+          </div>
 
-    {{ form.apellido_materno.as_hidden }}
-    <p>Apellido Materno: {{ form.apellido_materno.value }}</p>
+          <div class="form-group mb-4">
+            <label>Nombre</label>
+            <input type="text" class="form-control" value="{{ form.nombre.value }} {{ form.apellido_paterno.value }} {{ form.apellido_materno.value }}" readonly>
+          </div>
 
-    {{ form.nombre.as_hidden }}
-    <p>Nombre: {{ form.nombre.value }}</p>
+          <div class="form-group mb-4">
+            <label>Semestre</label>
+            <input type="text" class="form-control" value="{{ form.semestre.value }}" readonly>
+          </div>
 
-    {{ form.semestre.as_hidden }}
-    <p>Semestre: {{ form.semestre.value }}</p>
+          <div class="form-group mb-4">
+            <label>Sexo</label>
+            <input type="text" class="form-control" value="{{ form.sexo.value }}" readonly>
+          </div>
 
-    {{ form.sexo.as_hidden }}
-    <p>Sexo: {{ form.sexo.value }}</p>
+          <div class="form-group mb-4">
+            <label>Carrera</label>
+            <input type="text" class="form-control" value="{{ form.carrera.value }}" readonly>
+          </div>
 
-    {{ form.carrera.as_hidden }}
-    <p>Carrera: {{ form.carrera.value }}</p>
+          <div class="form-group mb-4">
+            <label>Asunto</label>
+            <input type="text" class="form-control" value="{{ form.asunto.value }}" readonly>
+          </div>
 
-    {{ form.asunto.as_hidden }}
-    <p>Asunto: {{ form.asunto.value }}</p>
+          <div class="form-group mb-4">
+            <label>Descripción</label>
+            <textarea class="form-control" rows="3" readonly>{{ form.descripcion.value }}</textarea>
+          </div>
 
-    {{ form.descripcion.as_hidden }}
-    <p>Descripcion: {{ form.descripcion.value }}</p>
+          <!-- Campos adicionales según el estado de la cita -->
+          {% if form.estado.value == 'Declinada' %}
+            {{ form.comentarios_orientador.as_hidden }}
+            <div class="form-group mb-4">
+              <label>Comentarios orientador</label>
+              <textarea class="form-control" readonly>{{ form.comentarios_orientador.value }}</textarea>
+            </div>
 
-    <!-- Campos adicionales según el estado de la cita -->
-    {% if form.estado.value == 'Declinada' %}
-      {{ form.comentarios_orientador.as_hidden }}
-      <p>Comentarios orientador: {{ form.comentarios_orientador.value }}</p>
+            {{ form.comentarios_usuario.as_hidden }}
+            <div class="form-group mb-4">
+              <label>Comentarios usuario</label>
+              <textarea class="form-control" readonly>{{ form.comentarios_usuario.value }}</textarea>
+            </div>
 
-      {{ form.comentarios_usuario.as_hidden }}
-      <p>Comentarios usuario: {{ form.comentarios_usuario.value }}</p>
+            {{ form.fecha.as_hidden }}
+            <div class="form-group mb-4">
+              <label>Fecha</label>
+              <input type="datetime-local" class="form-control" value="{{ form.fecha.value|date:'Y-m-d H:i:s' }}" readonly>
+            </div>
 
-      {{ form.fecha.as_hidden }}
-      <p>Fecha: {{ form.fecha.value|date:"Y-m-d H:i:s" }}</p>
+            {{ form.estado.as_hidden }}
+            <div class="form-group mb-4">
+              <label>Estado</label>
+              <input type="text" class="form-control" value="{{ form.estado.value }}" readonly>
+            </div>
 
-      {{ form.estado.as_hidden }}
-      <p>Estado: {{ form.estado.value }}</p>
+            <button type="submit" name="action" value="salir" class="btn btn-primary">Salir</button>
 
-      <button type="submit" name="action" value="salir">Salir</button>
+          {% else %}
+            <!-- Vista para usuarios que no son staff -->
+            {% if not request.user.is_staff %}
+              {{ form.fecha.as_hidden }}
+              <div class="form-group mb-4">
+                <label>Fecha</label>
+                <input type="datetime-local" class="form-control" value="{{ form.fecha.value|date:'Y-m-d H:i:s' }}" readonly>
+              </div>
 
-    {% else %}
-      <!-- Vista para usuarios que no son staff -->
-      {% if not request.user.is_staff %}
-        {{ form.fecha.as_hidden }}
-        <p>Fecha: {{ form.fecha.value|date:"Y-m-d H:i:s" }}</p>
+              {{ form.estado.as_hidden }}
+              <div class="form-group mb-4">
+                <label>Estado</label>
+                <input type="text" class="form-control" value="{{ form.estado.value }}" readonly>
+              </div>
 
-        {{ form.estado.as_hidden }}
-        <p>Estado: {{ form.estado.value }}</p>
+              {{ form.comentarios_orientador.as_hidden }}
+              <div class="form-group mb-4">
+                <label>Comentarios orientador</label>
+                <textarea class="form-control" readonly>{{ form.comentarios_orientador.value }}</textarea>
+              </div>
 
-        {{ form.comentarios_orientador.as_hidden }}
-        <p>Comentarios orientador: {{ form.comentarios_orientador.value }}</p>
+              <div class="form-group mb-4">
+                <label>Comentarios usuario</label>
+                {{ form.comentarios_usuario|add_class:"form-control" }}
+              </div>
+              
+              <div class="d-flex gap-4 justify-content-center">
+                <button type="submit" name="action" value="cancel" class="btn btn-danger">Declinar cita</button>
+                <button type="submit" name="action" value="save" class="btn btn-success">Guardar</button>
+                <button type="submit" name="action" value="salir" class="btn btn-primary">Salir</button>
+              </div>
 
-        <p>Comentarios usuario: {{ form.comentarios_usuario}}</p>
-        
-        <button type="submit" name="action" value="cancel">Declinar cita</button>
-        <button type="submit" name="action" value="save">Guardar</button>
-        <button type="submit" name="action" value="salir">Salir</button>
+            <!-- Vista para usuarios que son staff -->
+            {% else %}
+              <div class="form-group mb-4">
+                <label>Fecha</label>
+                {{ form.fecha|add_class:"form-control" }}
+              </div>
+              <div class="form-group mb-4">
+                <label>Estado</label>
+                {{ form.estado|add_class:"form-control" }}
+              </div>
+              <div class="form-group mb-4">
+                <label>Comentarios orientador</label>
+                {{ form.comentarios_orientador|add_class:"form-control" }}
+              </div>
 
-      <!-- Vista para usuarios que son staff -->
-      {% else %}
-        <p>Fecha: {{ form.fecha }}</p>
-        <p>Estado: {{ form.estado }}</p>
-        <p>Comentarios orientador: {{ form.comentarios_orientador }}</p>
+              {{ form.comentarios_usuario.as_hidden }}
+              <div class="form-group mb-4">
+                <label>Comentarios usuario</label>
+                <textarea class="form-control" name="comentarios_usuario" rows="3" readonly>{{ form.comentarios_usuario.value }}</textarea>
+              </div>
 
-        {{ form.comentarios_usuario.as_hidden }}
-        <p>Comentarios usuario: {{ form.comentarios_usuario.value }}</p>
-
-        <button type="submit" name="action" value="save">Guardar</button>
-        <button type="submit" name="action" value="salir">Salir</button>
-      {% endif %}
-    {% endif %}
-  </form>
+              <div class="d-flex gap-4 justify-content-center">
+                <button type="submit" name="action" value="save" class="btn btn-success">Guardar</button>
+                <button type="submit" name="action" value="salir" class="btn btn-primary">Salir</button>
+              </div>
+            {% endif %}
+          {% endif %}
+        </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
