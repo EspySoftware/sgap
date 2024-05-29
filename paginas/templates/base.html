@@ -34,26 +34,14 @@
                     {% if user.is_authenticated %}
                     <li>
                         <a
-                            href="/citas/crear"
-                            class="nav-link {% if request.path == '/citas/crear' %}active{% endif %} py-3 border-bottom rounded-0"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right"
-                            aria-label="Agendar Nueva Cita"
-                            data-bs-original-title="Agendar Nueva Cita"
-                        >
-                            <i class="fas fa-calendar-plus"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a
                             href="/citas_pendientes/"
-                            class="nav-link {% if request.path == '/citas/' %}active{% endif %}{% if request.path == '/citas_confirmadas/' %}active{% endif %}{% if request.path == '/citas_pendientes/' %}active{% endif %} py-3 border-bottom rounded-0"
+                            class="nav-link {% if request.path == '/citas/' %}active{% endif %}{% if request.path == '/citas_confirmadas/' %}active{% endif %}{% if request.path == '/citas_pendientes/' %}active{% endif %}{% if request.path == '/citas/crear' %}active{% endif %} py-3 border-bottom rounded-0"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right"
                             aria-label="Citas"
                             data-bs-original-title="Citas"
                         >
-                            <i class="fas fa-calendar-alt"></i>
+                            <i class="fas fa-clock"></i>
                         </a>
                     </li>
                     <li>
@@ -65,7 +53,7 @@
                             aria-label="Horarios"
                             data-bs-original-title="Horarios"
                         >
-                            <i class="fas fa-clock"></i>
+                            <i class="fas fa-calendar"></i>
                         </a>
                     </li>
                     <li>

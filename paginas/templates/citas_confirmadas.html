@@ -1,8 +1,15 @@
 {% extends 'base.html' %} {% block content %}
+
 <h1 class="text-center mt-3 mb-3">Citas confirmada</h1>
 
-<div class="d-flex mb-3 gap-2">
-    <a href="/citas" class="btn btn-success">Todas las citas</a>
+<div class="d-flex mb-3 justify-content-between">
+  <div class="d-flex gap-2">
+      <a href="/citas" class="btn btn-success">Todas las citas</a>
+  </div>
+
+  <div>
+    <a href="/citas/crear" class="btn btn-success">Solicitar Cita</a>
+  </div>
 </div>
 
 <table class="table table-bordered">
