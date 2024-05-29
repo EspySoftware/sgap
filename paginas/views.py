@@ -58,12 +58,12 @@ def detalle_cita(request, id_cita):
     if request.user.is_staff:
         if request.method == "GET":
             cita = get_object_or_404(Cita, pk=id_cita)
-            form = FormularioCita(instance=cita)
+            form = FormularioCita(instance=cita, user = request.user)
             return render(request, 'detalle_cita.html', {'cita': cita, 'form': form})
         else:
             try:
                 cita = get_object_or_404(Cita, pk=id_cita)
-                form = FormularioCita(request.POST, instance=cita)
+                form = FormularioCita(request.POST, instance=cita, user = request.user)
                 action = request.POST.get('action')
                 if action == 'save':
                     form.save()
@@ -84,12 +84,12 @@ def detalle_cita(request, id_cita):
     else:
         if request.method == "GET":
             cita = get_object_or_404(Cita, pk=id_cita, user=request.user)
-            form = FormularioCita(instance=cita)
+            form = FormularioCita(instance=cita, user = request.user)
             return render(request, 'detalle_cita.html', {'cita': cita, 'form': form})
         else:
             try:
                 cita = get_object_or_404(Cita, pk=id_cita, user=request.user)
-                form = FormularioCita(request.POST, instance=cita)
+                form = FormularioCita(request.POST, instance=cita, user = request.user)
                 action = request.POST.get('action')
                 if action == 'cancel':
                     if request.POST.get('comentarios_usuario') != 'No hay comentarios.':
