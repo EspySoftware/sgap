@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'sgap.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default = 'postgresql://postgres:postgres@localhost/postgres',
+        default = 'DATABASE_URL',
         conn_max_age=600
     )
 }
