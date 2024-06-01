@@ -1,7 +1,4 @@
-
----
-
-# Proyecto de Gestión de Citas
+# Sistema de Gestión para Atención Psicopedagógica
 
 Este proyecto es una aplicación web para la gestión de citas entre estudiantes y orientadores. Permite a los usuarios registrarse, iniciar sesión, crear citas, ver citas pendientes y confirmadas, y gestionar horarios disponibles para las citas.
 
@@ -19,7 +16,8 @@ Este proyecto es una aplicación web para la gestión de citas entre estudiantes
 - HTML
 - CSS
 - JavaScript
-- Bootstrap (para el diseño y la interfaz de usuario)
+- jQuery
+- Bootstrap
 
 ## Instalación
 
@@ -85,17 +83,3 @@ Los usuarios pueden ver los detalles de una cita específica. El personal admini
 ### Gestión de Horarios
 
 El personal administrativo puede definir y gestionar los horarios disponibles para las citas.
-
-## Archivos y Directorios Importantes
-
-- `views.py`: Contiene las vistas principales de la aplicación.
-- `forms.py`: Contiene los formularios utilizados en la aplicación.
-- `models.py`: Define los modelos de datos de la aplicación.
-- `urls.py`: Define las rutas de la aplicación.
-- `templates/`: Contiene las plantillas HTML de la aplicación.
-- `static/`: Contiene los archivos estáticos como CSS y JavaScript.
-
-## Autores
-
----
-
