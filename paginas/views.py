@@ -285,7 +285,7 @@ def create_horarios():
 
     # Find the next Monday
     today = date.today()
-    next_monday = today
+    next_monday = today + timedelta(days=(7 - today.weekday() or 7))
 
     # Create a schedule for each day from Monday to Friday
     for day in range(5):  # 0 is Monday, 4 is Friday
@@ -302,3 +302,5 @@ def create_horarios():
             Horario.objects.create(inicio=inicio, fin=fin, estado=estado)
 
     print(f'{5 * hours} horarios creados.')
+
+create_horarios()
