@@ -302,5 +302,3 @@ def create_horarios():
             Horario.objects.create(inicio=inicio, fin=fin, estado=estado)
 
     print(f'{5 * hours} horarios creados.')
-
-create_horarios()
