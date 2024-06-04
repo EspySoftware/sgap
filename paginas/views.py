@@ -248,7 +248,7 @@ def crear_horario(request):
 
         hora = datetime.strptime(hora, '%H:%M:%S').time()
         # Una fecha de referencia que sea un lunes
-        fecha = datetime.strptime('2024-05-20', '%Y-%m-%d')
+        fecha = datetime.strptime('2024-06-03', '%Y-%m-%d')
         while fecha.strftime('%A') != dia_semana_ingles:
             fecha += timedelta(days=1)
 
