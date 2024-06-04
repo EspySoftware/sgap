@@ -248,7 +248,7 @@ def crear_horario(request):
 
         hora = datetime.strptime(hora, '%H:%M:%S').time()
         # Una fecha de referencia que sea un lunes
-        fecha = datetime.strptime('2024-05-27', '%Y-%m-%d')
+        fecha = datetime.strptime('2024-06-03', '%Y-%m-%d')
         while fecha.strftime('%A') != dia_semana_ingles:
             fecha += timedelta(days=1)
 
@@ -285,7 +285,7 @@ def create_horarios():
 
     # Find the next Monday
     today = date.today()
-    next_monday = today + timedelta(days=(7 - today.weekday() or 7))
+    next_monday = today
 
     # Create a schedule for each day from Monday to Friday
     for day in range(5):  # 0 is Monday, 4 is Friday
