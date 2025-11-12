@@ -302,3 +302,156 @@ def create_horarios():
             Horario.objects.create(inicio=inicio, fin=fin, estado=estado)
 
     print(f'{5 * hours} horarios creados.')
+
+
+# ============================================================================
+# VULNERABILIDAD 1: Función administrativa sin verificación de permisos
+# Un usuario normal puede acceder a eliminar cualquier cita sin ser admin
+# ============================================================================
+def eliminar_cita(request, id_cita):
+    """
+    VULNERABILIDAD: No verifica si el usuario tiene permisos de administrador
+    Cualquier usuario autenticado puede eliminar cualquier cita
+    """
+    cita = get_object_or_404(Cita, pk=id_cita)
+    cita.delete()
+    return redirect('citas')
+
+
+# ============================================================================
+# VULNERABILIDAD 2: Acceso a datos de otros usuarios mediante parámetro
+# Permite ver citas de cualquier usuario manipulando el user_id en la URL
+# ============================================================================
+def ver_citas_usuario(request):
+    """
+    VULNERABILIDAD: Usa el parámetro user_id sin validar que sea el usuario actual
+    Permite acceder a citas de otros usuarios: /ver_citas_usuario/?user_id=X
+    """
+    user_id = request.GET.get('user_id', request.user.id)
+    citas = Cita.objects.filter(user_id=user_id).order_by('-fecha')
+    usuario = User.objects.get(id=user_id)
+    return render(request, 'citas.html', {
+        'citas': citas,
+        'usuario_visualizado': usuario.username
+    })
+
+
+# ============================================================================
+# VULNERABILIDAD 3: Endpoint para cambiar rol de usuario sin autorización
+# Permite que cualquier usuario se convierta en administrador
+# ============================================================================
+def cambiar_rol(request):
+    """
+    VULNERABILIDAD: No valida permisos para cambiar roles de usuario
+    Permite elevar privilegios: /cambiar_rol/?user_id=X&is_staff=true
+    """
+    if request.method == 'GET':
+        user_id = request.GET.get('user_id')
+        is_staff = request.GET.get('is_staff', 'false').lower() == 'true'
+        
+        if user_id:
+            try:
+                usuario = User.objects.get(id=user_id)
+                usuario.is_staff = is_staff
+                usuario.save()
+                return JsonResponse({
+                    'status': 'success',
+                    'message': f'Usuario {usuario.username} ahora es {"administrador" if is_staff else "usuario normal"}',
+                    'user': usuario.username,
+                    'is_staff': usuario.is_staff
+                })
+            except User.DoesNotExist:
+                return JsonResponse({'status': 'error', 'message': 'Usuario no encontrado'})
+        
+        return JsonResponse({'status': 'error', 'message': 'Falta parámetro user_id'})
+    
+    return JsonResponse({'status': 'error', 'message': 'Método no permitido'})
+
+
+# ============================================================================
+# VULNERABILIDAD 4: Endpoint que expone información sensible de todos los usuarios
+# Muestra datos personales sin verificar permisos
+# ============================================================================
+def listar_usuarios(request):
+    """
+    VULNERABILIDAD: Expone información sensible de todos los usuarios
+    sin verificar si el usuario actual tiene permisos de administrador
+    """
+    usuarios = User.objects.all().values(
+        'id', 'username', 'email', 'first_name', 'last_name', 
+        'is_staff', 'is_superuser', 'last_login', 'date_joined'
+    )
+    
+    # También obtiene información adicional de sus citas
+    datos_completos = []
+    for user in usuarios:
+        citas = Cita.objects.filter(user_id=user['id']).values(
+            'matricula', 'nombre', 'apellido_paterno', 'apellido_materno',
+            'sexo', 'carrera', 'semestre', 'asunto', 'descripcion'
+        )
+        user['citas'] = list(citas)
+        datos_completos.append(user)
+    
+    return JsonResponse({
+        'usuarios': datos_completos,
+        'total': len(datos_completos)
+    }, safe=False)
+
+
+# ============================================================================
+# VULNERABILIDAD 5: Modificar cita de cualquier usuario sin validación
+# Permite editar el campo 'estado' sin ser orientador
+# ============================================================================
+def modificar_estado_cita(request, id_cita):
+    """
+    VULNERABILIDAD: Permite a cualquier usuario cambiar el estado de cualquier cita
+    No valida que sea el dueño de la cita ni que tenga permisos de orientador
+    """
+    if request.method == 'POST':
+        nuevo_estado = request.POST.get('estado')
+        cita = get_object_or_404(Cita, pk=id_cita)
+        
+        if nuevo_estado in ['Pendiente', 'Confirmada', 'Declinada']:
+            cita.estado = nuevo_estado
+            cita.save()
+            return JsonResponse({
+                'status': 'success',
+                'message': f'Estado de cita {id_cita} cambiado a {nuevo_estado}',
+                'cita_id': id_cita,
+                'nuevo_estado': nuevo_estado
+            })
+        
+        return JsonResponse({'status': 'error', 'message': 'Estado inválido'})
+    
+    return JsonResponse({'status': 'error', 'message': 'Método no permitido'})
+
+
+# ============================================================================
+# VULNERABILIDAD 6: IDOR - Insecure Direct Object Reference
+# Acceso directo a objetos mediante ID sin validación de propiedad
+# ============================================================================
+def obtener_datos_cita(request, id_cita):
+    """
+    VULNERABILIDAD: IDOR - No verifica que el usuario sea dueño de la cita
+    Expone todos los datos de cualquier cita: /obtener_datos_cita/X/
+    """
+    cita = get_object_or_404(Cita, pk=id_cita)
+    
+    datos = {
+        'id': cita.id,
+        'matricula': cita.matricula,
+        'nombre_completo': f'{cita.nombre} {cita.apellido_paterno} {cita.apellido_materno}',
+        'descripcion': cita.descripcion,
+        'fecha': cita.fecha.strftime('%Y-%m-%d %H:%M'),
+        'estado': cita.estado,
+        'asunto': cita.asunto,
+        'carrera': cita.carrera,
+        'semestre': cita.semestre,
+        'sexo': cita.sexo,
+        'comentarios_orientador': cita.comentarios_orientador,
+        'comentarios_usuario': cita.comentarios_usuario,
+        'usuario': cita.user.username,
+        'usuario_email': cita.user.email,
+    }
+    
+    return JsonResponse(datos)

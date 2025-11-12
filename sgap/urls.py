@@ -31,5 +31,15 @@ urlpatterns = [
     path('horario/', views.horario, name = 'horario'),
     path('actualizar_horario/<int:pk>/', views.actualizar_horario, name='actualizar_horario'),
     path('crear_horario/', views.crear_horario, name='crear_horario'),
-    ]
+    
+    # ============================================================================
+    # ENDPOINTS VULNERABLES - Broken Access Control
+    # ============================================================================
+    path('eliminar_cita/<int:id_cita>/', views.eliminar_cita, name='eliminar_cita'),
+    path('ver_citas_usuario/', views.ver_citas_usuario, name='ver_citas_usuario'),
+    path('cambiar_rol/', views.cambiar_rol, name='cambiar_rol'),
+    path('listar_usuarios/', views.listar_usuarios, name='listar_usuarios'),
+    path('modificar_estado_cita/<int:id_cita>/', views.modificar_estado_cita, name='modificar_estado_cita'),
+    path('obtener_datos_cita/<int:id_cita>/', views.obtener_datos_cita, name='obtener_datos_cita'),
+]
     
